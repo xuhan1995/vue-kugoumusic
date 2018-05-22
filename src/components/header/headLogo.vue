@@ -1,6 +1,6 @@
 <template>
   <div class="logo-container">
-    <div class="head-logo">
+    <div class="head-logo" @click="newSongsRouter">
       <a href="#">
         <img src="http://m.kugou.com/v3/static/images/index/logo.png">
       </a>
@@ -17,6 +17,10 @@
       searchRouter(){
         this.$store.commit('showDetailPlayer',false);  //关闭播放面板
         this.$router.push({ path : '/search'});
+      },
+      newSongsRouter(){
+        this.$store.commit('showDetailPlayer',false);
+        this.$router.push({ path : '/'});
       }
     }
   }
@@ -43,10 +47,10 @@
   }
   .head-search{
     float: right;
-    height: 100%;
+    height: 31px;
+    padding: 3px 0;
   }
   .head-search img{
     height: 100%;
-    padding: 3px;
   }
 </style>
