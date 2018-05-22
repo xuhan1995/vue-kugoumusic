@@ -65,11 +65,11 @@
 </script>
 
 <style type="text/css">
-.audio-view{
+.audio-view{  /*面板整体（包括隐藏的圆圈）仍然用fixed布局*/
   position: fixed;bottom: 0;left: 0;width: 100%;transition: all 0.5s;
 }
 .audio-view .mint-spinner-snake{background-color: #000;margin:4px}
-/*未隐藏下三角*/
+/*未隐藏，下三角*/
 .audio-panel-control{
   width: 35px;height: 35px;border-radius: 50%;background: rgba(0,0,0,.8) url("../assets/images/close_icon.png") no-repeat center;background-size: 25px;margin-left: 10px;margin-bottom: 10px;overflow: hidden
 }
