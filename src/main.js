@@ -10,7 +10,10 @@ import 'mint-ui/lib/style.css'
 import './assets/css/neat-min.css'
 import './assets/css/style.css'
 import jq from 'jquery'
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
 
+Vue.use(ElementUI);
 Vue.use(mint)
 
 Vue.prototype.$http = axios

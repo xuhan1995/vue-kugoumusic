@@ -20,7 +20,8 @@
       </div>
       <div class="detail_player-range container">
         <span class="detail_player-time">{{audio.currentLength | time}}</span>
-        <mt-range v-model="audio.currentLength" :min="0" :max="audio.songLength" :step="10" :bar-height="3" style="width: 80%" @click.native="rangeChange($event)" ></mt-range>  <!-- @mousedown.native="rangeMousedown" -->
+        <!-- <mt-range v-model="audio.currentLength" :min="0" :max="audio.songLength" :step="10" :bar-height="3" style="width: 80%" @click.native="rangeChange($event)" ></mt-range> -->
+        <el-slider v-model="audio.currentLength" :min="0" :max="audio.songLength" style="width: 80%"  @change="change($event)"></el-slider>
         <span class="detail_player-time">{{audio.songLength | time}}</span>
       </div>
       <div class="detail_player-control player-padding">
@@ -88,16 +89,6 @@ export default {
       this.$store.commit('showDetailPlayer',false);
       console.log(this.songLrc);
     },
-    rangeChange(e){
-      let offset = e.offsetX;
-      let rangeWidth = (document.documentElement.clientWidth - 20) * 0.8 - 20;
-      let clickLength = offset / rangeWidth * this.audio.songLength;
-      if (offset < rangeWidth) {
-        //改变播放进度，先传值到store（改变的是currentLength），再由store传到Player组件，由Player的change改变
-        this.$store.commit('setAudioTime',clickLength);
-        this.$store.commit('setCurret',true);
-      }
-    },
     isSinging(index){ //天哪，谁告诉我为什么放computed就不行，现在认为是computed不能传参
       let currentLength = parseInt(this.audio.currentLength);
       if (index < this.songLrc.length - 1) {
@@ -106,6 +97,10 @@ export default {
         }
       }
     },
+    change(currentLength){
+      this.$store.commit('setAudioTime',currentLength);
+      this.$store.commit('setCurret',true);
+    }
   },
 }
 </script>
