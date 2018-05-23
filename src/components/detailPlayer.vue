@@ -110,4 +110,14 @@ export default {
   color:#19C2EF;
   font-size: 16px;
 }
+.detail_player-time:nth-of-type(2) {
+  float: right;
+  margin-top: -38px;
+}
+.detail_player-time {
+  line-height: 38px;
+}
+.el-slider{
+  margin: 0 auto;
+}
 </style>
