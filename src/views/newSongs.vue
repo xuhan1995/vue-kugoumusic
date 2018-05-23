@@ -19,12 +19,13 @@
 
 <script type="text/javascript">
   import { Indicator } from 'mint-ui';
-  import { PLAY_AUDIO } from '../mixins/';
+  import { untils } from '../mixins/';
   import { mapGetters } from 'vuex';
 
 
   export default {
-    mixins: [PLAY_AUDIO],  //minxins是一个外部模块，components,computed,methods都可以混入Vue实例中，有好多组件引用，而又不应放在store中时，用此方法
+    mixins: [untils],  //minxins是一个外部模块，components,computed,methods都可以混入Vue实例中，有好多组件引用，而又不应放在store中时，用此方法;
+    //是untils的升级版
     data: () => ({
       banners:[],
       songList:[]

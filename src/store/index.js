@@ -17,8 +17,8 @@ const store = new Vuex.Store({
       title: '',
       singer: '',
       currentLength: 0,    //已播放的时长
-      songLength: 0,      //歌曲长度
-      currentFlag: false   //
+      songLength: 0,      //歌曲长度 进度条有用
+      currentFlag: false   //是否改变了播放进度
     },
     showDetailPlayer:false,   //显示歌词面板,这里叫详细播放器
     headNav: 'head-nav1',  //一开始在第一个nav
@@ -38,6 +38,7 @@ const store = new Vuex.Store({
     audioLoadding: state => state.audioLoadding,
     showPlayer: state => state.showPlayer,
     isPlay: state => state.isPlay,
+    showDetailPlayer: state => state.showDetailPlayer,
   },
   mutations:{
     showDetailPlayer: (state,flag) => {
@@ -64,7 +65,7 @@ const store = new Vuex.Store({
       state.audio = {...(state.audio),lrc}
     },
     //player页
-    setCurret: (state,flag) => {
+    setCurret: (state,flag) => {   //改变了播放进度
       state.audio.currentFlag = flag;
     },
     setAudioTime: (state,time) => {
@@ -79,7 +80,6 @@ const store = new Vuex.Store({
       commit('toggleAudioLoadding',true);  //让下面Player的图标显示加载
       axios.get(`/bproxy/yy/index.php?r=play/getdata&hash=${hash}`).then(({data}) => {
         data = data.data;
-        console.log(data);
         const songUrl = data.play_url
         const imgUrl = data.img
         const title = data.audio_name
@@ -100,6 +100,17 @@ const store = new Vuex.Store({
       }
       else{
         state.songListInfo.songIndex++;
+      }
+      let hash = songList[state.songListInfo.songIndex].hash;
+      dispatch('getSong',hash);   //传递选中歌曲信息用hash值
+    },
+    prev({dispatch,state}){
+      let songList = state.songListInfo.songList;
+      if (state.songListInfo.songIndex == 0) {
+        state.songListInfo.songIndex = songList.length - 1;
+      }
+      else{
+        state.songListInfo.songIndex--;
       }
       let hash = songList[state.songListInfo.songIndex].hash;
       dispatch('getSong',hash);   //传递选中歌曲信息用hash值

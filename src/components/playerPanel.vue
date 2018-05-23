@@ -21,8 +21,10 @@
 
 <script type="text/javascript">
   import { mapGetters } from 'vuex'
+  import { untils } from '../mixins/'
 
   export default {
+    mixins: [untils],
     data: () => ({
       toggleHide: false,  //面板隐藏和显示一个上三角一个下三角的flag
     }),
@@ -35,7 +37,7 @@
       },
       change(){
         let time = jq('#audioPlay')[0].currentTime;  //当前播放时间
-        if (this.currentFlag) {   //目前不明白currentFlag是什么
+        if (this.audio.currentFlag) {   //如果人为地改变了播放进度
           jq('#audioPlay')[0].currentTime = this.audio.currentLength;
           this.$store.commit('setCurret',false);
         }
@@ -43,22 +45,10 @@
           this.$store.commit('setAudioTime',time);
         }
       },
-      next(){
-        this.$store.dispatch('next');
-      },
       showDetailPlayer(){
        if (this.showPlayer) {
          this.$store.commit('showDetailPlayer',true)
        }
-      },
-      toggleStatus(){
-        if (this.isPlay) {
-          jq('#audioPlay')[0].pause();
-        }
-        else{
-          jq('#audioPlay')[0].play();
-        }
-        this.$store.commit('isPlay',!this.isPlay);
       },
     }
   }

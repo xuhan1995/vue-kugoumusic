@@ -8,7 +8,7 @@ import mint from 'mint-ui'
 import axios from 'axios'
 import 'mint-ui/lib/style.css'
 import './assets/css/neat-min.css'
-// import './assets/css/style.css'
+import './assets/css/style.css'
 import jq from 'jquery'
 
 Vue.use(mint)
