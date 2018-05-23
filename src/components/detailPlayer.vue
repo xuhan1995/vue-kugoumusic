@@ -100,12 +100,13 @@ export default {
     },
     isSinging(index){ //天哪，谁告诉我为什么放computed就不行，现在认为是computed不能传参
       let currentLength = parseInt(this.audio.currentLength);
-      if (index < this.songLrc.length - 1) {
-        if (currentLength > this.songLrc[index].seconds && currentLength < this.songLrc[index + 1].seconds) {
-          return index;
-        }
+      if (currentLength > this.songLrc[index].seconds && currentLength < this.songLrc[index + 1].seconds) {
+        return index;
       }
     },
+    // rangeMousedown(){
+    //   this.ifClick = true;
+    // }
   },
 }
 </script>
