@@ -87,7 +87,6 @@ export default {
   methods:{
     hideDetailPlayer(){
       this.$store.commit('showDetailPlayer',false);
-      console.log(this.songLrc);
     },
     isSinging(index){ //天哪，谁告诉我为什么放computed就不行，现在认为是computed不能传参
       let currentLength = parseInt(this.audio.currentLength);
@@ -119,5 +118,6 @@ export default {
 }
 .el-slider{
   margin: 0 auto;
+  padding:0 10px;
 }
 </style>
