@@ -21,10 +21,16 @@ module.exports = {
         this.$store.commit('isPlay',!this.isPlay);
       },
       next(){
-        this.$store.dispatch('next')
+        if (!this.isPlay) {  //暂停情况下点击下一首，切换到下一首是自动播放的，所以要把状态从暂停改成播放
+          this.$store.commit('isPlay',true)
+        }
+        this.$store.dispatch('next');
       },
       prev(){
-        this.$store.dispatch('prev')
+        if (!this.isPlay) {  //暂停情况下点击下一首，切换到下一首是自动播放的，所以要把状态从暂停改成播放
+          this.$store.commit('isPlay',true)
+        }
+        this.$store.dispatch('prev');
       }
     }
   },
