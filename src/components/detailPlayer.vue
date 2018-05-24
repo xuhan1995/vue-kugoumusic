@@ -90,8 +90,13 @@ export default {
     },
     isSinging(index){ //天哪，谁告诉我为什么放computed就不行，现在认为是computed不能传参
       let currentLength = parseInt(this.audio.currentLength);
-      if (index < this.songLrc.length - 1) {
+      if (index < this.songLrc.length - 1) {  //除最后一句，在此句开始时间和下句开始时间的区间，高亮
         if (currentLength > this.songLrc[index].seconds && currentLength < this.songLrc[index + 1].seconds) {
+          return index;
+        }
+      }
+      else {  //针对最后一句，时间>最后一句开始时间，高亮
+        if (currentLength >= this.songLrc[this.songLrc.length - 1].seconds) {
           return index;
         }
       }
