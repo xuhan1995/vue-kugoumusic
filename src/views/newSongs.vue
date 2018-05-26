@@ -11,9 +11,11 @@
 
     <!-- 歌单songList -->
     <!-- mint的title和img会自适应，分居左右 -->
-    <mt-cell v-for="(song,index) in songList" :title="song.filename" :key="index" @click.native="playAudio(index)">
-      <img src="../assets/images/download_icon.png" width="20" height="20">
-    </mt-cell>
+    <div class="add_margin_bottom">
+      <mt-cell v-for="(song,index) in songList" :title="song.filename" :key="index" @click.native="playAudio(index)">
+        <img src="../assets/images/download_icon.png" width="20" height="20">
+      </mt-cell>
+    </div>
   </div>
 </template>
 
@@ -72,5 +74,6 @@
   .mint-swipe-indicators {
     bottom: 5px !important;
   }
+  .add_margin_bottom{margin-bottom: 109px;}
 
 </style>
