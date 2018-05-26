@@ -9,20 +9,22 @@
           placeholder="歌手/歌名/拼音"
           :trigger-on-focus="false"
           @select="selectDataList"
+          :select-when-unmatched="true"
           prefix-icon="el-icon-search"
         >
           <i slot="suffix" class="el-input__icon el-icon-close" v-show="inputValue" @click="clearInput"></i>
           <div slot-scope="{ item }">{{ item.filename }}</div>
         </el-autocomplete>
+         <el-button type="success" style="background-color:#2ba2fa;" @click="search">搜索</el-button>
       </div>
       <!-- 热歌列表 -->
-      <div class="hot_list" v-show="!inputValue">
+      <div class="hot_list" v-if="!togglePanel">
         <div class="hot_list_title">最近热门</div>
           <mt-cell v-for="(hotTitle,index) in hotList" :title="hotTitle.keyword" :key="index" @click.native="replaceInputValue(hotTitle)">
           </mt-cell>
       </div>
       <!-- 搜索得到歌单 -->
-      <div class="song_list" v-show="inputValue">
+      <div class="song_list" v-else>
         <div class="total_result">
           共有{{total}}条搜索结果
         </div>
@@ -40,6 +42,7 @@
   export default {
     mixins:[untils],
     data: () => ({
+      togglePanel:false,
       inputValue:'',
       total:0,
       hotList:[],  //一开始显示热门歌单
@@ -67,7 +70,7 @@
           text: '加载中...',
           spinnerType: 'fading-circle'
         });
-        this.$http.get('/aproxy/api/v3/search/song?format=json&keyword=' + queryString + '&page=1&pagesize=20&showtype=1').then(({data}) =>{
+        this.$http.get('/aproxy/api/v3/search/song?format=json&keyword=' + queryString + '&page=1&pagesize=10&showtype=1').then(({data}) =>{
           this.songList = data.data.info;
           if (this.inputValue) {
             jq('div.el-autocomplete-suggestion').show();
@@ -81,14 +84,45 @@
         })
       },
       selectDataList(item){
-        this.inputValue = item.filename;
+        if (item.hasOwnProperty('value')) {
+          if (item.value) {
+            this.inputValue = item.value;
+            this.search();
+          }
+          else{
+            this.togglePanel = false;
+          }
+        }
+        else{
+          this.inputValue = item.filename;
+          this.search();
+        }
       },
       clearInput(){
         this.inputValue = '';
       },
+      search(){
+        if (this.inputValue) {
+          Indicator.open({
+          text: '加载中...',
+          spinnerType: 'fading-circle'
+        });
+          this.$http.get('/aproxy/api/v3/search/song?format=json&keyword=' + this.inputValue + '&page=1&pagesize=200&showtype=1').then(({data}) =>{
+          this.songList = data.data.info;
+          this.total = data.data.total;
+          this.togglePanel = true;
+        }).catch(error => {console.log(error);}).then(() => {
+          Indicator.close();
+        })
+        }
+        else{
+          this.togglePanel = false;
+        }
+      },
       //hotTitle的点击事件
       replaceInputValue(hotTitle){  //将搜索框中内容换成点击的hotTitle
         this.inputValue = hotTitle.keyword;
+        this.search();
       }
     }
   }
@@ -99,12 +133,15 @@
     height: 55px;margin-top: 94px; padding: 10px;background-color: #fbfbfb;
 }
 .inline_input{
-  height: 100%;width: 100%;
+  float: left;width: 80%; height: 100%;
 }
 .el-input__inner{
   height: 35px;
 }
-.hot_list{margin-bottom: 64px;}
+.el-button{float: right; width:18%; height: 35px;}
+/*.el-button--success{background-color: #2ba2fa; border-color: #2ba2fa;}*/
+.hot_list{margin-bottom: 109px;}
 .hot_list_title,.total_result {padding: 10px;color: deepskyblue}
 .song_list{margin-bottom: 109px;}
+.total_result{padding: 5px 10px;background-color: #e1e1e1;color: #484848;}
 </style>
