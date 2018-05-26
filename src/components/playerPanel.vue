@@ -74,7 +74,7 @@
 .player-status{
   float:left;width: 50%;height: 100%;margin-left: 3%;padding:5px;color: #fff;
 }
-.player-title{width: 100%;font-size: 16px;overflow: hidden;display: block;}
+.player-title{width: 100%;font-size: 16px;overflow: hidden;display: block;max-height: 20px;}
 .player-singer{display: block;height: 50%;width: 100%;color: #c4c4c4;padding-top: 2px}
 .player-controls{
   width: 30%;height: 100%;float: right;
