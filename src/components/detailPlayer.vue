@@ -79,7 +79,7 @@ export default {
     },
     lrcOffset(){
       if (this.songLrc != null) {
-        let offset = (this.songLrc.length - jq('.underCurrentlrc').length - 2) * (-20)  //显示的第一行距离顶部的像素
+        let offset = (this.songLrc.length - jq('.underCurrentlrc').length - 3) * (-20)  //显示的第一行距离顶部的像素
         return this.audio.currentLength + offset - this.audio.currentLength
       }
     },
@@ -122,19 +122,44 @@ export default {
 </script>
 
 <style type="text/css">
-.isSinginglrc{
-  color:#19C2EF;
-  font-size: 16px;
+.detail_player{
+  position: fixed;top: 0;left: 0;width: 100%;height: 100%;z-index: 1010; background-attachment: fixed; background-position: center;background-repeat: no-repeat;background-size: cover;
 }
-.detail_player-time:nth-of-type(2) {
-  float: right;
-  margin-top: -38px;
+.detail_player-content{
+  position: fixed;top: 0;left: 0;width: 100%;height: 100%;z-index: 1010;background-color: rgba(0,0,0,.5);
 }
-.detail_player-time {
-  line-height: 38px;
+.detail_player-title {
+  position: relative; width: 100%;height: 43px;background: -webkit-linear-gradient(top,rgba(0,0,0,.6),rgba(0,0,0,0));margin-top: 51px;text-align: center; line-height: 43px; color: #fff;font-size: 18px;
+}
+.detail_player-back{
+  display: block;position: absolute;float: left; top: 0;left: 5px;width: 24px;height: 100%;background: url('../assets/images/goback_icon.png') no-repeat center;background-size: 60% 60%;
+}
+.detail_player-img{
+  width: 50%;margin: 50px auto;
+}
+.detail_player-img img{width: 100%;}
+.detail_player-lrc{
+  width: 100%;height: 100px;line-height: 20px;margin-bottom: 20px;color: #fff;overflow: hidden;text-align: center;
+}
+.lrc-content{transition: all .5s;transform: translateZ(0)}
+.lrc-content .disCurrentLrc:last-of-type{color: orange;}
+.detail_player-time{
+  display: block;float: left; width:10%;height: 38px;line-height: 38px;text-align: center;color: #fff;font-size: 12px;
+}
+.detail_player-time:nth-of-type(2){
+  float: right;margin-top: -38px;
 }
 .el-slider{
-  margin: 0 auto;
-  padding:0 10px;
+  margin: 0 auto; padding: 0 10px;
+}
+.detail_player-control{margin-top: 20px;}
+.player-padding{padding: 0 20%}
+.detail_player-btn{display: block;width: 33.3%;float: left;height: 100px;}
+.play-prev{background: url("../assets/images/play_prev.png") no-repeat;background-size: 60% auto;background-position: center}
+.play-play{background: url("../assets/images/play_play.png") no-repeat;background-size: 80% auto;background-position: center}
+.play-pause{background: url("../assets/images/play_pause.png") no-repeat;background-size: 80% auto;background-position: center}
+.play-next{background: url("../assets/images/play_next.png") no-repeat;background-size: 60% auto;background-position: center}
+.isSinginglrc{
+  color:#19C2EF; font-size: 18px;
 }
 </style>
