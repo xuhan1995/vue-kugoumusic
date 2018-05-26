@@ -21,7 +21,7 @@
       <div class="detail_player-range container">
         <span class="detail_player-time">{{audio.currentLength | time}}</span>
         <!-- <mt-range v-model="audio.currentLength" :min="0" :max="audio.songLength" :step="10" :bar-height="3" style="width: 80%" @click.native="rangeChange($event)" ></mt-range> -->
-        <el-slider v-model="audio.currentLength" :min="0" :max="audio.songLength" style="width: 80%"  @change="change($event)"></el-slider>
+        <el-slider v-model="audio.currentLength" :min="0" :max="audio.songLength" style="width: 80%"  @change="change($event)" :format-tooltip="TooltipShowCurrentLength"></el-slider>
         <span class="detail_player-time">{{audio.songLength | time}}</span>
       </div>
       <div class="detail_player-control player-padding">
@@ -104,6 +104,18 @@ export default {
     change(currentLength){
       this.$store.commit('setAudioTime',currentLength);
       this.$store.commit('setCurret',true);
+    },
+    TooltipShowCurrentLength(value){ //没有延时的拖动可以完成，延时个0.5s就不行了
+      let seconds = value;
+      let minute = Math.floor(seconds / 60);
+      if (minute < 10) {
+        minute = '0' + minute;
+      }
+      let second = seconds % 60;
+      if (second < 10) {
+        second = '0' + second;
+      }
+      return minute + ':' + second;
     }
   },
 }
