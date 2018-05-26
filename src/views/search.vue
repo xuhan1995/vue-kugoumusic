@@ -38,9 +38,20 @@
       hotList:[],
     }),
     created(){
-      this.getSongs();
+      this.getHotList();
     },
     methods:{
+      getHotList(){
+        Indicator.open({
+          text: '加载中...',
+          spinnerType: 'fading-circle'
+        });
+        this.$http.get('/aproxy/api/v3/search/hot?format=json&plat=0&count=30').then(({data}) =>{
+          this.hotList = data.data.info;
+        }).then(() => {
+          Indicator.close();
+        })
+      },
       querySearch(queryString,cb){
         Indicator.open({
           text: '加载中...',
