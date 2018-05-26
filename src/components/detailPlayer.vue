@@ -8,6 +8,7 @@
         <span class="detail_player-back" @click="hideDetailPlayer"></span>
         {{audio.title}}
       </div>
+      <el-slider v-model="audioVolume" :min="0" :max="1" :step="0.01" style="width: 80%"  @change="changeAudioVolume" :format-tooltip="TooltipShowAudioVolume"></el-slider>
       <div class="detail_player-img">
         <img :src="audio.imgUrl">
       </div>
@@ -40,7 +41,7 @@ import { untils } from '../mixins/'
 export default {
   mixins: [untils],
   data: () => ({
-
+    audioVolume:0.1,
   }),
   filters:{
     time(value){
@@ -116,6 +117,16 @@ export default {
         second = '0' + second;
       }
       return minute + ':' + second;
+    },
+    //音量相关
+    getAudioVolume(){
+      this.audioVolume = jq('#audioPlay')[0].volume;
+    },
+    changeAudioVolume(currentVolume){
+      jq('#audioPlay')[0].volume = currentVolume;
+    },
+    TooltipShowAudioVolume(value){
+      return value * 100;
     }
   },
 }
@@ -135,7 +146,7 @@ export default {
   display: block;position: absolute;float: left; top: 0;left: 5px;width: 24px;height: 100%;background: url('../assets/images/goback_icon.png') no-repeat center;background-size: 60% 60%;
 }
 .detail_player-img{
-  width: 50%;margin: 50px auto;
+  width: 50%;margin: 30px auto ;
 }
 .detail_player-img img{width: 100%;}
 .detail_player-lrc{
