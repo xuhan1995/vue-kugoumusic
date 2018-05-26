@@ -16,12 +16,12 @@
         <el-button type="success">搜索</el-button>
       </div>
 
-<!--       <div class="hot-list">
+      <div class="hot-list">
         <div class="hot-list-title">最近热门</div>
-          <mt-cell v-for="(song,index) in hotList" :title="song.filename" :key="index" @click.native="playAudio(index)">
+          <mt-cell v-for="(hotTitle,index) in hotList" :title="hotTitle.keyword" :key="index" @click.native="replaceInputValue(hotTitle)">
               <img src="../assets/images/download_icon.png" width="20" height="20">
           </mt-cell>
-      </div> -->
+      </div>
   </div>
 </template>
 
@@ -37,6 +37,9 @@
       total:0,
       hotList:[],
     }),
+    created(){
+      this.getSongs();
+    },
     methods:{
       querySearch(queryString,cb){
         Indicator.open({
@@ -56,10 +59,15 @@
       clearInput(){
         this.inputValue = '';
       },
+      replaceInputValue(hotTitle){  //将搜索框中内容换成点击的hotTitle
+        this.inputValue = hotTitle.keyword;
+      }
     }
   }
 </script>
 
 <style type="text/css">
-
+.search_panel{
+  margin-top: 94px;
+}
 </style>
