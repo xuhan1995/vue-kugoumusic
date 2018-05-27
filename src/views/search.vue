@@ -144,4 +144,6 @@
 .hot_list_title,.total_result {padding: 10px;color: deepskyblue}
 .song_list{margin-bottom: 109px;}
 .total_result{padding: 5px 10px;background-color: #e1e1e1;color: #484848;}
+.mint-cell-title{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}   /*限制单行显示*/
+.mint-cell-text{font-size: 15px;}
 </style>
