@@ -6,7 +6,7 @@
     <div class="detail_player-content">
       <div class="detail_player-title container">
         <span class="detail_player-back" @click="hideDetailPlayer"></span>
-        {{audio.title}}
+        <p class="detail_player_info">{{audio.title}}</p>
       </div>
 
       <div class="volume">
@@ -17,8 +17,9 @@
         <img :src="audio.imgUrl">
       </div>
       <div class="detail_player-lrc">
+        <p class="no_songLrc" v-show="typeof songLrc == 'string'">{{songLrc}}</p>
         <div class="lrc-content" :style="{ marginTop : lrcOffset + 'px'}">
-          <p v-for="(item,index) in songLrc" :class="{ underCurrentlrc : item.seconds >= audio.currentLength , isSinginglrc: index == isSinging(index)}">  <!-- 所以要在player组件中timeupdate实时更新currentLength -->
+          <p  v-show="typeof songLrc != 'string'" v-for="(item,index) in songLrc" :class="{ underCurrentlrc : item.seconds >= audio.currentLength , isSinginglrc: index == isSinging(index)}">  <!-- 所以要在player组件中timeupdate实时更新currentLength -->
             {{item.lrcContent}}
           </p>
         </div>
@@ -81,7 +82,7 @@ export default {
         return songLrc;
       }
       else{
-        //这里是没得到歌词的处理
+        return '很遗憾，没有得到此歌曲的歌词';
       }
     },
     lrcOffset(){
@@ -177,11 +178,12 @@ export default {
   position: fixed;top: 0;left: 0;width: 100%;height: 100%;z-index: 1010;background-color: rgba(0,0,0,.5);
 }
 .detail_player-title {
-  position: relative; width: 100%;height: 43px;background: -webkit-linear-gradient(top,rgba(0,0,0,.6),rgba(0,0,0,0));margin-top: 51px;text-align: center; line-height: 43px; color: #fff;font-size: 18px;
+  position: relative; width: 100%;height: 43px;background: -webkit-linear-gradient(top,rgba(0,0,0,.6),rgba(0,0,0,0));margin-top: 51px;padding:0 5px; text-align: center; line-height: 43px; color: #fff;font-size: 18px;
 }
 .detail_player-back{
   display: block;position: absolute;float: left; top: 0;left: 5px;width: 24px;height: 100%;background: url('../assets/images/goback_icon.png') no-repeat center;background-size: 60% 60%;
 }
+.detail_player_info{width: 90%;height:100%;  float: right;}
 .detail_player-img{
   width: 50%;margin: 30px auto ;
 }
@@ -191,6 +193,7 @@ export default {
 }
 .lrc-content{transition: all .5s;transform: translateZ(0)}
 .lrc-content .disCurrentLrc:last-of-type{color: orange;}
+.no_songLrc{margin:40px auto;font-size: 16px;}
 .detail_player-time{
   display: block;float: left; width:10%;height: 38px;line-height: 38px;text-align: center;color: #fff;font-size: 12px;
 }
