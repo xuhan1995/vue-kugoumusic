@@ -8,7 +8,11 @@
         <span class="detail_player-back" @click="hideDetailPlayer"></span>
         {{audio.title}}
       </div>
-      <el-slider v-model="audioVolume" :min="0" :max="1" :step="0.01" style="width: 80%"  @change="changeAudioVolume" :format-tooltip="TooltipShowAudioVolume"></el-slider>
+
+      <div class="volume">
+        <span class="iconfont" @click="toggleMuted" :class="{'icon-volume-zuixiaoyinliang' : !audioMuted,'icon-volume-guanbiyinliang' : audioMuted}"></span>
+        <el-slider v-model="audioVolume" :min="0" :max="1" :step="0.01" style="width: 85%"  @change="changeAudioVolume" :format-tooltip="TooltipShowAudioVolume"></el-slider>
+      </div>
       <div class="detail_player-img">
         <img :src="audio.imgUrl">
       </div>
@@ -41,7 +45,9 @@ import { untils } from '../mixins/'
 export default {
   mixins: [untils],
   data: () => ({
-    audioVolume:0.1,
+    audioVolume:0,  //当前音量
+    audioMuted:false,  //是否静音
+    cacheVolume:0,  //静音时缓存音量
   }),
   filters:{
     time(value){
@@ -85,6 +91,10 @@ export default {
       }
     },
   },
+  mounted(){
+    jq('#audioPlay')[0].volume = 0.4;
+    this.getAudioVolume();
+  },
   methods:{
     hideDetailPlayer(){
       this.$store.commit('showDetailPlayer',false);
@@ -119,14 +129,41 @@ export default {
       return minute + ':' + second;
     },
     //音量相关
-    getAudioVolume(){
-      this.audioVolume = jq('#audioPlay')[0].volume;
+    getAudioVolume(value){  //computed还不能用jquery
+      if (value != undefined) {
+        this.audioVolume = value;
+      }
+      else{
+        this.audioVolume = jq('#audioPlay')[0].volume;
+      }
     },
     changeAudioVolume(currentVolume){
+      if (currentVolume) {  //不是静音要同时改变两个状态
+        jq('#audioPlay')[0].muted = false;
+        this.audioMuted = false;
+      }
+      else{  //同理
+        jq('#audioPlay')[0].muted = true;
+        this.audioMuted = true;
+      }
       jq('#audioPlay')[0].volume = currentVolume;
     },
     TooltipShowAudioVolume(value){
       return value * 100;
+    },
+    //静音
+    toggleMuted(){
+      if (!jq('#audioPlay')[0].muted){  //音量开
+        this.cacheVolume = jq('#audioPlay')[0].volume;  //缓存音量
+        jq('#audioPlay')[0].muted = true;  //静音
+        this.getAudioVolume(0); //同步音量条
+      }
+      else {
+        jq('#audioPlay')[0].muted = false;
+        this.getAudioVolume(this.cacheVolume);
+        this.cacheVolume = 0;
+      }
+        this.audioMuted = !this.audioMuted;
     }
   },
 }
@@ -173,4 +210,15 @@ export default {
 .isSinginglrc{
   color:#19C2EF; font-size: 18px;
 }
+.volume{
+  padding: 10px 5px 10px 15px;
+}
+.icon-volume-zuixiaoyinliang,.icon-volume-guanbiyinliang{
+  float: left; display: block;padding: 0 5px; width: 20%;line-height: 38px;font-size: 25px;
+}
+.el-slider__runway,.el-slider__bar{
+  height:3px;
+}
+.el-slider__runway{background-color: #807070;}
+.el-slider__bar{background-color: #EDE4E4;}
 </style>
