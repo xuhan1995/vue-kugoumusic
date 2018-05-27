@@ -6,7 +6,7 @@
     <div class="detail_player-content">
       <div class="detail_player-title container">
         <span class="detail_player-back" @click="hideDetailPlayer"></span>
-        <p class="detail_player_info">{{audio.title}}</p>
+        <div class="detail_player_info"><p :style="{ marginLeft : titleOffset + 'px'}">{{audio.title}}</p></div>
       </div>
 
       <div class="volume">
@@ -49,6 +49,7 @@ export default {
     audioVolume:0,  //当前音量
     audioMuted:false,  //是否静音
     cacheVolume:0,  //静音时缓存音量
+    titleOffset:0,
   }),
   filters:{
     time(value){
@@ -99,6 +100,7 @@ export default {
   methods:{
     hideDetailPlayer(){
       this.$store.commit('showDetailPlayer',false);
+      this.setTitleOffset();
     },
     isSinging(index){ //天哪，谁告诉我为什么放computed就不行，现在认为是computed不能传参
       let currentLength = parseInt(this.audio.currentLength);
@@ -165,6 +167,25 @@ export default {
         this.cacheVolume = 0;
       }
         this.audioMuted = !this.audioMuted;
+    },
+   setTitleOffset(){
+      let clientWidth = jq('.detail_player_info')[0].clientWidth
+      let scrollWidth = jq('.detail_player_info')[0].scrollWidth
+      let offsetLeft = jq('.detail_player_info')[0].offsetLeft
+      if (clientWidth < scrollWidth) {
+        let recordingOffset = 0;
+        setInterval(() => {
+            this.titleOffset -= 1;
+            recordingOffset += 1;
+            if (recordingOffset > scrollWidth + offsetLeft) {
+              this.titleOffset = 0;
+              recordingOffset = 0
+            }
+        },20);
+      }
+      else{
+        return
+      }
     }
   },
 }
@@ -178,12 +199,13 @@ export default {
   position: fixed;top: 0;left: 0;width: 100%;height: 100%;z-index: 1010;background-color: rgba(0,0,0,.5);
 }
 .detail_player-title {
-  position: relative; width: 100%;height: 43px;background: -webkit-linear-gradient(top,rgba(0,0,0,.6),rgba(0,0,0,0));margin-top: 51px;padding:0 5px; text-align: center; line-height: 43px; color: #fff;font-size: 18px;
+  position: relative; width: 100%;height: 43px;background: -webkit-linear-gradient(top,rgba(0,0,0,.6),rgba(0,0,0,0));margin-top: 51px;padding:0 2%; text-align: center; line-height: 43px; color: #fff;font-size: 18px;overflow: visible;
 }
 .detail_player-back{
   display: block;position: absolute;float: left; top: 0;left: 5px;width: 24px;height: 100%;background: url('../assets/images/goback_icon.png') no-repeat center;background-size: 60% 60%;
 }
-.detail_player_info{width: 90%;height:100%;  float: right;}
+.detail_player_info{width: 90%;height:100%; float: right;}
+.detail_player_info p{height: 100%;white-space:nowrap;}
 .detail_player-img{
   width: 50%;margin: 30px auto ;
 }
