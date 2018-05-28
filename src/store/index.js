@@ -30,6 +30,7 @@ const store = new Vuex.Store({
     listenCount:0, //听了几首歌
     showPlayer:false,  //是否能允许detailPlayer，只有首次进入不允许，因为没放歌，detailPlayer，啥都没有
     isPlay:false,  //是否正在播放
+    toggleHide: false,  //面板隐藏和显示一个上三角一个下三角的flag
   },
   getters:{
     headNav: state => state.headNav,
@@ -40,6 +41,7 @@ const store = new Vuex.Store({
     isPlay: state => state.isPlay,
     showDetailPlayer: state => state.showDetailPlayer,
     listenCount: state => state.listenCount,
+    toggleHide: state => state.toggleHide,
   },
   mutations:{
     showDetailPlayer: (state,flag) => {
@@ -74,7 +76,10 @@ const store = new Vuex.Store({
     },
     isPlay: (state,flag) => {
       state.isPlay = flag;
-    }
+    },
+    toggleHide:(state,flag) => {
+      state.toggleHide = flag;
+    },
   },
   actions:{
     getSong({commit, state}, hash){

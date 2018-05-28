@@ -24,7 +24,7 @@
           </mt-cell>
       </div>
       <!-- 搜索得到歌单 -->
-      <div class="song_list" v-else>
+      <div :class="{'toggle_hide_margin_bottom':toggleHide ,'toggle_show_margin_bottom':!toggleHide}" v-else>
         <div class="total_result">
           共有{{total}}条搜索结果
         </div>
@@ -38,6 +38,7 @@
 <script type="text/javascript">
   import { Indicator } from 'mint-ui';
   import { untils } from '../mixins/';
+  import { mapGetters } from 'vuex';
 
   export default {
     mixins:[untils],
@@ -50,6 +51,9 @@
     }),
     created(){
       this.getHotList();
+    },
+    computed:{
+      ...mapGetters(['toggleHide'])
     },
     methods:{
       //获取热门列表的函数
@@ -142,8 +146,9 @@
 /*.el-button--success{background-color: #2ba2fa; border-color: #2ba2fa;}*/
 .hot_list{margin-bottom: 109px;}
 .hot_list_title,.total_result {padding: 10px;color: deepskyblue}
-.song_list{margin-bottom: 109px;}
 .total_result{padding: 5px 10px;background-color: #e1e1e1;color: #484848;}
 .mint-cell-title{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}   /*限制单行显示*/
 .mint-cell-text{font-size: 15px;}
+.toggle_show_margin_bottom{margin-bottom: 109px;}
+.toggle_hide_margin_bottom{margin-bottom: 48px;}
 </style>

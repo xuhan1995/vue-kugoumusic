@@ -26,14 +26,15 @@
   export default {
     mixins: [untils],
     data: () => ({
-      toggleHide: false,  //面板隐藏和显示一个上三角一个下三角的flag
+
     }),
     computed:{
-      ...mapGetters(['audio','audioLoadding','showPlayer','isPlay'])
+      ...mapGetters(['audio','audioLoadding','showPlayer','isPlay','toggleHide'])
     },
     methods:{
       togglePanel(){
-        this.toggleHide = !this.toggleHide;
+        let toggleHide = !this.toggleHide;
+        this.$store.commit('toggleHide',toggleHide);
       },
       change(){
         let time = jq('#audioPlay')[0].currentTime;  //当前播放时间

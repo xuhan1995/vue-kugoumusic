@@ -11,7 +11,7 @@
 
     <!-- 歌单songList -->
     <!-- mint的title和img会自适应，分居左右 -->
-    <div class="add_margin_bottom">
+    <div :class="{'toggle_hide_margin_bottom':toggleHide ,'toggle_show_margin_bottom':!toggleHide}" >
       <mt-cell v-for="(song,index) in songList" :title="song.filename" :key="index" @click.native="playAudio(index)">
         <img src="../assets/images/download_icon.png" width="20" height="20">
       </mt-cell>
@@ -33,7 +33,7 @@
       songList:[]
     }),
     computed: {
-      ...mapGetters(['audio'])
+      ...mapGetters(['audio','toggleHide'])
     },
     created(){  //渲染前调用
       this.getSongs();
@@ -74,6 +74,6 @@
   .mint-swipe-indicators {
     bottom: 5px !important;
   }
-  .add_margin_bottom{margin-bottom: 109px;}
-
+  .toggle_show_margin_bottom{margin-bottom: 109px;}
+  .toggle_hide_margin_bottom{margin-bottom: 48px;}
 </style>
