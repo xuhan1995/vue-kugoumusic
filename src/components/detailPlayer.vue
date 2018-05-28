@@ -267,7 +267,7 @@ export default {
   padding: 10px 5px 10px 15px;
 }
 .icon-volume-zuixiaoyinliang,.icon-volume-guanbiyinliang{
-  float: left; display: block;padding: 0 5px; width: 20%;line-height: 38px;font-size: 25px;
+  float: left; display: block;padding: 0 5px; width: 20%;line-height: 38px;font-size: 25px;color: #fff;
 }
 .el-slider__runway,.el-slider__bar{
   height:3px;
