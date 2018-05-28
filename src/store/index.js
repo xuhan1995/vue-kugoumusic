@@ -39,6 +39,7 @@ const store = new Vuex.Store({
     showPlayer: state => state.showPlayer,
     isPlay: state => state.isPlay,
     showDetailPlayer: state => state.showDetailPlayer,
+    listenCount: state => state.listenCount,
   },
   mutations:{
     showDetailPlayer: (state,flag) => {
