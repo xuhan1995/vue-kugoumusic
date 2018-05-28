@@ -1,7 +1,7 @@
 <template>
   <div class="rank" :class="{'toggle_hide_margin_bottom':toggleHide ,'toggle_show_margin_bottom':!toggleHide}">
     <mt-cell :title="item.rankname" v-for="(item,index) in rankList" :to="`/rank/info/${item.rankid}`" is-link :key="index">
-      <img slot="icon" :src="item.imgurl.replace('{size}','400')" width="60" height="60">  <!-- 要学会这种处理img的方式 -->
+      <img slot="icon" :src="item.imgurl.replace('{size}','400')" width="60" height="60">  <!-- 只有把size设置为400时img能正常显示 -->
     </mt-cell>
   </div>
 </template>
