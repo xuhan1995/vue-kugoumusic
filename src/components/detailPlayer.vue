@@ -49,7 +49,8 @@ export default {
     audioVolume:0,  //当前音量
     audioMuted:false,  //是否静音
     cacheVolume:0,  //静音时缓存音量
-    titleOffset:0,
+    titleOffset:0,   //title偏移量
+    titleOffsetTimer:null,  //计算title偏移量的setInterval
   }),
   filters:{
     time(value){
@@ -66,7 +67,7 @@ export default {
     }
   },
   computed:{
-    ...mapGetters(['showDetailPlayer','audio','isPlay' ]),
+    ...mapGetters(['showDetailPlayer','audio','isPlay','listenCount' ]),
     songLrc(){
       if (this.audio.lrc) {
         let songLrc = this.audio.lrc.split('\r\n')
@@ -97,10 +98,36 @@ export default {
     jq('#audioPlay')[0].volume = 0.4;
     this.getAudioVolume();
   },
+  watch:{
+    //用了watch和nextTick即数据变化加DOM重新渲染
+    showDetailPlayer: function () {  //需要监听showDetailPlayer是因为showDetailPlayer变化时会重新渲染title的DOM
+      this.$nextTick(function () {  //进入setTitleOffset需要确保setInterval是空的
+        if (this.titleOffsetTimer == null) {
+          this.setTitleOffset();
+        }
+        else{
+          clearInterval(this.titleOffsetTimer);
+          this.titleOffsetTimer = null;
+          this.setTitleOffset();
+        }
+      })
+    },
+    listenCount: function () {
+      this.$nextTick(function () {
+        if (this.titleOffsetTimer == null) {
+          this.setTitleOffset();
+        }
+        else{
+          clearInterval(this.titleOffsetTimer);
+          this.titleOffsetTimer = null;
+          this.setTitleOffset();
+        }
+      })
+    },
+  },
   methods:{
     hideDetailPlayer(){
       this.$store.commit('showDetailPlayer',false);
-      this.setTitleOffset();
     },
     isSinging(index){ //天哪，谁告诉我为什么放computed就不行，现在认为是computed不能传参
       let currentLength = parseInt(this.audio.currentLength);
@@ -171,20 +198,21 @@ export default {
    setTitleOffset(){
       let clientWidth = jq('.detail_player_info')[0].clientWidth
       let scrollWidth = jq('.detail_player_info')[0].scrollWidth
-      let offsetLeft = jq('.detail_player_info')[0].offsetLeft
       if (clientWidth < scrollWidth) {
-        let recordingOffset = 0;
-        setInterval(() => {
-            this.titleOffset -= 1;
-            recordingOffset += 1;
-            if (recordingOffset > scrollWidth + offsetLeft) {
-              this.titleOffset = 0;
+        let recordingOffset = 0;  //记录偏移量，当然用tittleOffset也行，只不过这样更直观
+        this.titleOffsetTimer = setInterval(() => {
+            if (recordingOffset > scrollWidth) {
+              this.titleOffset = 0;  //偏移够了，回原位
               recordingOffset = 0
+            }
+            else{
+              this.titleOffset -= 1;
+              recordingOffset += 1;
             }
         },20);
       }
-      else{
-        return
+      else{  //短title别忘了把偏移量变回去，不然指不定出现在哪
+        this.titleOffset = 0;
       }
     }
   },
