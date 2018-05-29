@@ -40,6 +40,7 @@
         }
       })
     },
+    //通过路由的before钩子解除router-view缓存限制，并不希望缓存每个rankInfo
     beforeRouteLeave (to, from , next) {
       this.$store.commit('showHead',false);
       window.onscroll = null;
