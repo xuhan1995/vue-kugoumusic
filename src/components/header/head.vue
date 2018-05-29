@@ -1,7 +1,7 @@
 <template>
   <div class="header">
     <head-logo />
-    <rank-head v-if="head.toggle" :title="head.title" :cStyle="head.cStyle" />
+    <rank-head v-if="head.toggle" :title="head.title" :cStyle="head.style" />
     <head-nav v-else/>
   </div>
 </template>
