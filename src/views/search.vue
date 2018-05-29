@@ -143,7 +143,6 @@
   height: 35px;
 }
 .el-button{float: right; width:18%; height: 35px;}
-/*.el-button--success{background-color: #2ba2fa; border-color: #2ba2fa;}*/
 .hot_list{margin-bottom: 109px;}
 .hot_list_title,.total_result {padding: 10px;color: deepskyblue}
 .total_result{padding: 5px 10px;background-color: #e1e1e1;color: #484848;}
