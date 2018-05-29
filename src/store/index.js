@@ -7,7 +7,7 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
   state:{
     head:{   //以下各项都是排行榜的项
-      toggle:false,  //在新歌排行榜页面为true
+      toggle:false,  //在rankInfo页面为true
       title:'',
       style: {'background': 'rgba(43,162,251,0)'},
     },
@@ -79,6 +79,16 @@ const store = new Vuex.Store({
     },
     toggleHide:(state,flag) => {
       state.toggleHide = flag;
+    },
+    //rankInfo页
+    showHead:(state,flag) => {
+      state.head.toggle = flag;
+    },
+    setHeadTitle:(state,rankname) => {
+      state.head.title = rankname;
+    },
+    setHeadStyle:(state,style) => {
+      state.head.style = style;
     },
   },
   actions:{
