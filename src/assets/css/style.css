@@ -85,7 +85,7 @@ a{text-decoration: none !important;}
 
 /* override */
 .mint-cell{padding-left: 10px;min-height: 52px}
-.rank .mint-cell-wrapper{padding: 10px 5px;}
+.rank .mint-cell-wrapper{padding: 10px 5px;font-size: 16px;}
 .plist .mint-cell-wrapper{padding: 10px 5px;}
 .ringtone .mint-cell-wrapper{padding: 5px 0 5px 5px}
 .singer_list .mint-cell-wrapper{padding: 10px 5px}

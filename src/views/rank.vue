@@ -36,8 +36,8 @@
   }
 </script>
 
-<style type="text/css">
-  .mint-cell-text{margin-left: 10px;font-size: 16px;}
+<style type="text/css" scoped>
+  .rank .mint-cell-title img {margin-right: 10px;}
   .toggle_show_margin_bottom{margin-bottom: 109px;}
   .toggle_hide_margin_bottom{margin-bottom: 48px;}
 </style>
