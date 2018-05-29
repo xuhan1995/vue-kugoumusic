@@ -25,9 +25,8 @@
         Indicator.open({
           text: '加载中...',
           spinnerType: 'fading-circle'
-        });http:
+        });
         this.$http.get('/proxy/rank/list&json=true').then(({data}) =>{
-          console.log(data.rank.list);
           this.rankList = data.rank.list;
         }).then(() => {
           Indicator.close();
