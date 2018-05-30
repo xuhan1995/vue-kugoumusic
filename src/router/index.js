@@ -4,6 +4,8 @@ import newSongs from '../views/newSongs'
 import search from '../views/search'
 import rank from '../views/rank'
 import rankInfo from '../views/rankInfo'
+import plist from '../views/plist'
+import plistInfo from '../views/plistInfo'
 
 
 Vue.use(Router)
@@ -25,6 +27,14 @@ export default new Router({
   {
     path: '/rank/info/:id',
     component: rankInfo,
+  },
+  {
+    path: '/plist',
+    component: plist,
+  },
+  {
+    path: '/plist/info/:id',
+    component: plistInfo,
   },
   ]
 })
