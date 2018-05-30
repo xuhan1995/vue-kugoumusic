@@ -84,11 +84,14 @@ const store = new Vuex.Store({
     showHead:(state,flag) => {
       state.head.toggle = flag;
     },
-    setHeadTitle:(state,rankname) => {
-      state.head.title = rankname;
+    setHeadTitle:(state,title) => {
+      state.head.title = title;
     },
     setHeadStyle:(state,style) => {
       state.head.style = style;
+    },
+    resetHeadStyle:(state) => {
+      state.head.style = {'background': 'rgba(43,162,251,0)'};
     },
   },
   actions:{
