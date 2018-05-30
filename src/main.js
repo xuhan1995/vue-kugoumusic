@@ -8,10 +8,12 @@ import mint from 'mint-ui'
 import axios from 'axios'
 import 'mint-ui/lib/style.css'
 import './assets/css/neat-min.css'
-import './assets/css/style.css'
 import jq from 'jquery'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
+import './assets/icon/iconfont.css'
+import './assets/css/style.css'
+
 
 Vue.use(ElementUI);
 Vue.use(mint)
