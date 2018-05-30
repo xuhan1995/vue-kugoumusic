@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" :class="{'toggle_hide_margin_bottom':toggleHide ,'toggle_show_margin_bottom':!toggleHide}">
     <div class="cell-group"><div class="cell-item" @click="goRouter(88)">热门歌手</div></div>
 
     <div class="cell-group">
@@ -23,7 +23,12 @@
 </template>
 
 <script type="text/javascript">
+  import { mapGetters } from 'vuex';
+
   export default{
+    computed:{
+      ...mapGetters(['toggleHide']),
+    },
     methods:{
       goRouter(id){
         this.$router.push({path: `/singer/list/${id}`})
@@ -33,5 +38,6 @@
 </script>
 
 <style type="text/css">
-
+  .toggle_show_margin_bottom{margin-bottom: 109px;}
+  .toggle_hide_margin_bottom{margin-bottom: 48px;}
 </style>
