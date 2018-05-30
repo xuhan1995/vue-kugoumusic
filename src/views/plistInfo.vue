@@ -1,10 +1,14 @@
 <template>
   <div class="rank-info-content plist-info" :class="{'toggle_hide_margin_bottom':toggleHide ,'toggle_show_margin_bottom':!toggleHide}">
-    <div class="rank-banner-wrap" :style="{backgroundImage:`url(${imgurl})`}"></div>
+    <div class="rank-banner-wrap" :style="{backgroundImage:`url(${imgurl})`}">
+      <div class="rank-status container">
+        <el-tag v-for="(tag,index) in info.tags" :key="index">{{tag.tagname}}</el-tag>
+      </div>
+    </div>
     <div class="plist-desp">
       <p class="plist-desp-p" :class="{ 'plist-desp-hide' : hideIntro}">
         <span style="display: block">{{info.intro}}</span>
-        <span v-show="!hideIntro" style="display: block;textAlign: right;color: deepskyblue">--by--{{info.nickname}}</span>
+        <span v-show="!hideIntro" class="createdBy">--by--{{info.nickname}}</span>
       </p>
       <img src="../assets/images/close_icon.png" class="plist-desp-icon" @click="toggleIntro" v-if="hideIntro">
       <img src="../assets/images/open_icon.png" class="plist-desp-icon" @click="toggleIntro" v-else>
@@ -70,7 +74,6 @@
           const {info,list} = data;
           this.info = info.list;
           this.songList = list.list.info;
-          console.log(this.info,this.songList);
           this.imgurl = this.info.imgurl.replace('{size}','400');
           this.$store.commit('setHeadTitle',this.info.specialname);
         }).then(() => {
@@ -90,6 +93,8 @@
     height: 250px;
     background-size: 100%
   }
+  span.el-tag{color: #0BEAFB; background-color: rgba(64,158,255,0.3);}
+  .createdBy{display: block;text-align: right;color: deepskyblue}
   .mint-cell-title{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}   /*限制单行显示*/
   .toggle_show_margin_bottom{margin-bottom: 109px;}
   .toggle_hide_margin_bottom{margin-bottom: 48px;}
