@@ -6,6 +6,9 @@ import rank from '../views/rank'
 import rankInfo from '../views/rankInfo'
 import plist from '../views/plist'
 import plistInfo from '../views/plistInfo'
+import singer from '../views/singer'
+import singerList from '../views/singerList'
+import singerInfo from '../views/singerInfo'
 
 
 Vue.use(Router)
@@ -35,6 +38,18 @@ export default new Router({
   {
     path: '/plist/info/:id',
     component: plistInfo,
+  },
+  {
+    path: '/singer',
+    component: singer,
+  },
+  {
+    path: '/singer/list/:id',
+    component: singerList,
+  },
+  {
+    path: '/singer/info/:id',
+    component: singerInfo,
   },
   ]
 })
