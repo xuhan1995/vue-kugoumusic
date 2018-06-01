@@ -31,3 +31,10 @@ npm run build --report
 ## 预览图
 ![2](https://github.com/xuhan1995/vue-kugoumusic/raw/master/screenshot/newSongs.png)
 ![2](https://github.com/xuhan1995/vue-kugoumusic/raw/master/screenshot/rank.png)
+![2](https://github.com/xuhan1995/vue-kugoumusic/raw/master/screenshot/rankInfo.png)
+![2](https://github.com/xuhan1995/vue-kugoumusic/raw/master/screenshot/plist.png)
+![2](https://github.com/xuhan1995/vue-kugoumusic/raw/master/screenshot/plistInfo.png)
+![2](https://github.com/xuhan1995/vue-kugoumusic/raw/master/screenshot/singer.png)
+![2](https://github.com/xuhan1995/vue-kugoumusic/raw/master/screenshot/singerList.png)
+![2](https://github.com/xuhan1995/vue-kugoumusic/raw/master/screenshot/singerInfo.png)
+![2](https://github.com/xuhan1995/vue-kugoumusic/raw/master/screenshot/search.png)
