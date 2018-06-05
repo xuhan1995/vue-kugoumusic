@@ -3,7 +3,8 @@
     <div class="rank-banner-wrap" :style="{backgroundImage:`url(${imgurl})`}" @click="getMoreInfo">
     </div>
     <div class="plist-desp">
-      <p class="plist-desp-p" :class="{ 'plist-desp-hide' : hideIntro}">
+      <!-- 现在不知道那种更好 <p class="plist-desp-p" :class="{ 'plist-desp-hide' : hideIntro}"> -->
+      <p class="plist-desp-p">
         <span class="singername">{{info.singername}}</span>
         <span style="display: block" v-show="!hideIntro">{{singerInfo}}</span>
       </p>
