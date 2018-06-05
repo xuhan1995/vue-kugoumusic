@@ -99,6 +99,7 @@ export default {
   },
   watch:{
     //用了watch和nextTick即数据变化加DOM重新渲染
+    //进入showDetailPlayer和切换歌曲都需要调用setTitleOffset
     showDetailPlayer: function () {  //需要监听showDetailPlayer是因为showDetailPlayer变化时会重新渲染title的DOM
       this.$nextTick(function () {  //进入setTitleOffset需要确保setInterval是空的
         if (this.titleOffsetTimer == null) {
@@ -111,7 +112,7 @@ export default {
         }
       })
     },
-    listenCount: function () {
+    listenCount: function () { //对应切换歌曲
       this.$nextTick(function () {
         if (this.titleOffsetTimer == null) {
           this.setTitleOffset();
