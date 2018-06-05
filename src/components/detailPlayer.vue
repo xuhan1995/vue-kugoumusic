@@ -26,8 +26,7 @@
       </div>
       <div class="detail_player-range container">
         <span class="detail_player-time">{{audio.currentLength | time}}</span>
-        <!-- <mt-range v-model="audio.currentLength" :min="0" :max="audio.songLength" :step="10" :bar-height="3" style="width: 80%" @click.native="rangeChange($event)" ></mt-range> -->
-        <el-slider v-model="audio.currentLength" :min="0" :max="audio.songLength" style="width: 80%"  @change="change" :format-tooltip="TooltipShowCurrentLength"></el-slider>
+        <el-slider v-model="audio.currentLength" :min="0" :max="audio.songLength" style="width: 80%"  @change="changePlayProgress" :format-tooltip="TooltipShowCurrentLength"></el-slider>
         <span class="detail_player-time">{{audio.songLength | time}}</span>
       </div>
       <div class="detail_player-control player-padding">
@@ -142,7 +141,7 @@ export default {
         }
       }
     },
-    change(currentLength){
+    changePlayProgress(currentLength){
       this.$store.commit('setAudioTime',currentLength);
       this.$store.commit('setCurret',true);
     },
