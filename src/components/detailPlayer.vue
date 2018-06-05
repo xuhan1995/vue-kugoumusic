@@ -159,16 +159,11 @@ export default {
       return minute + ':' + second;
     },
     //音量相关
-    getAudioVolume(value){  //computed还不能用jquery
-      if (value != undefined) {
-        this.audioVolume = value;
-      }
-      else{
-        this.audioVolume = jq('#audioPlay')[0].volume;
-      }
-    },
+    getAudioVolume(value){
+      value != undefined ? this.audioVolume = value : this.audioVolume = jq('#audioPlay')[0].volume;
+     },
     changeAudioVolume(currentVolume){
-      if (currentVolume) {  //不是静音要同时改变两个状态
+      if (currentVolume) {  //不是静音要同时改变两个状态值
         jq('#audioPlay')[0].muted = false;
         this.audioMuted = false;
       }
@@ -193,7 +188,7 @@ export default {
         this.getAudioVolume(this.cacheVolume);
         this.cacheVolume = 0;
       }
-        this.audioMuted = !this.audioMuted;
+        this.audioMuted = !this.audioMuted; //切换图标
     },
    setTitleOffset(){
       let clientWidth = jq('.detail_player_info')[0].clientWidth
