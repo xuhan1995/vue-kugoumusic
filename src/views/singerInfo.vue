@@ -94,7 +94,6 @@
 <style type="text/css">
   .rank-banner-wrap {
     height: 400px;
-    background-size: 100% ;
   }
   .singername{display: block;font-size: 20px;color:deepskyblue}
   .mint-cell-title{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}   /*限制单行显示*/
