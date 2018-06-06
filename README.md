@@ -62,5 +62,5 @@ npm run build --report
 
 3. 拖拽进度条时间过长则不会改变进度，现在用的是饿了吗组件的v-change指令
 
-4. 手机测试时ui有问题，因为写得时候device选择的iphone8Plus，很多地方都是用px写的，用小米5sPlus测试问题很大
+4. 手机测试时ui有问题，因为写得时候device选择的iphone8Plus，很多地方都是用px写的，用小米5sPlus测试问题很大，有时间做移动端的适配
 
