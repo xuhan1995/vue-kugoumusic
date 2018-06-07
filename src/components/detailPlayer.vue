@@ -160,7 +160,7 @@ export default {
     },
     //音量相关
     getAudioVolume(value){
-      value != undefined ? this.audioVolume = value : this.audioVolume = jq('#audioPlay')[0].volume;
+      this.audioVolume = value != undefined ?  value :  jq('#audioPlay')[0].volume;
      },
     changeAudioVolume(currentVolume){
       if (currentVolume) {  //不是静音要同时改变两个状态值
