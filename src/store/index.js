@@ -64,9 +64,6 @@ const store = new Vuex.Store({
       state.listenCount++
       state.audio = {...(state.audio), ...audio}  //相当于object.assign
     },
-    setLrc: (state,lrc) => {
-      state.audio = {...(state.audio),lrc}
-    },
     //player页
     setCurret: (state,flag) => {   //改变了播放进度
       state.audio.currentFlag = flag;
@@ -106,9 +103,8 @@ const store = new Vuex.Store({
         const singer = data.author_name
         const currentLength = 0
         const lrc = data.lyrics
-        const audio = {songUrl, imgUrl, title, singer, songLength, currentLength};
+        const audio = {songUrl, imgUrl, title, singer, songLength, currentLength,lrc};
         commit('setAudio',audio);
-        commit('setLrc',lrc);   //lrc是歌词
         commit('toggleAudioLoadding',false);  //让下面Player的图标加载完成
       })
     },
