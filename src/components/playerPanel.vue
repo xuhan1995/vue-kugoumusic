@@ -40,7 +40,7 @@
         let time = jq('#audioPlay')[0].currentTime;  //当前播放时间
         if (this.audio.currentFlag) {   //如果人为地改变了播放进度
           jq('#audioPlay')[0].currentTime = this.audio.currentLength;
-          this.$store.commit('setCurret',false);
+          this.$store.commit('setCurrent',false);
         }
         else{
           this.$store.commit('setAudioTime',time);
