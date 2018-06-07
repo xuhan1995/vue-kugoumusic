@@ -20,6 +20,7 @@
       },
       newSongsRouter(){
         this.$store.commit('showDetailPlayer',false);
+        this.$store.commit('setHeadNav','head-nav1');
         this.$router.push({ path : '/'});
       }
     }
