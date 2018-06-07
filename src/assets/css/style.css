@@ -98,6 +98,7 @@ a{text-decoration: none !important;}
 
 .mint-cell-title{
     padding-right: 10px;
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap; /*限制单行显示*/
 }
 
 /* media query */
