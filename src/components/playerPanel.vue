@@ -3,7 +3,7 @@
     <!-- audio_panel_hide类是把playerPanel隐藏 -->
     <audio :src="audio.songUrl" autoplay id="audioPlay" @timeupdate="change" @ended="next"></audio>    <!-- 目前不明timeupdate有什么用 -->
     <div class="audio-panel-control" @click="togglePanel" :class="{'toggleContral' : toggleHide}">    <!-- toggleContral是圆圈里的上拉和划下 -->
-      <mt-spinner type="fading-circle" :size="27" v-show="audioLoadding"></mt-spinner>0
+      <mt-spinner type="fading-circle" :size="27" v-show="audioLoadding"></mt-spinner>
     </div>
     <div class="audio-panel">
       <img class="player-img" :src="audio.imgUrl" @click="showDetailPlayer">
