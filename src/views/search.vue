@@ -74,7 +74,7 @@
           text: '加载中...',
           spinnerType: 'fading-circle'
         });
-        this.$http.get('/aproxy/api/v3/search/song?format=json&keyword=' + queryString + '&page=1&pagesize=10&showtype=1').then(({data}) =>{
+        this.$http.get(`/aproxy/api/v3/search/song?format=json&keyword=${queryString}&page=1&pagesize=10&showtype=1`).then(({data}) =>{
           this.songList = data.data.info;
           if (this.inputValue) {
             jq('div.el-autocomplete-suggestion').show();
