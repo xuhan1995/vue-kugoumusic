@@ -94,7 +94,7 @@ export default {
     },
   },
   mounted(){
-    jq('#audioPlay')[0].volume = 0.4;
+    jq('#audioPlay')[0].volume = localStorage.getItem("volume") || 0.4;
     this.getAudioVolume();
   },
   watch:{
@@ -172,6 +172,7 @@ export default {
         this.audioMuted = true;
       }
       jq('#audioPlay')[0].volume = currentVolume;
+      window.localStorage.setItem('volume',this.audioVolume);
     },
     TooltipShowAudioVolume(value){
       return value * 100;
