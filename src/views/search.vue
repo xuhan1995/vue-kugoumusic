@@ -111,7 +111,7 @@
           text: '加载中...',
           spinnerType: 'fading-circle'
         });
-          this.$http.get('/aproxy/api/v3/search/song?format=json&keyword=' + this.inputValue + '&page=1&pagesize=200&showtype=1').then(({data}) =>{
+          this.$http.get(`/aproxy/api/v3/search/song?format=json&keyword=${this.inputValue}&page=1&pagesize=200&showtype=1`).then(({data}) =>{
           this.songList = data.data.info;
           this.total = data.data.total;
           this.togglePanel = true;
