@@ -64,3 +64,4 @@ npm run build --report
 
 4. 手机测试时ui有问题，因为写得时候device选择的iphone8Plus，很多地方都是用px写的，用小米5sPlus测试问题很大，有时间做移动端的适配
 
+This is master.
