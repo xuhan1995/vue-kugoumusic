@@ -63,7 +63,7 @@
           month = '0' + month;
         }
         if (date < 10) {
-          date = '0' + updateTime;
+          date = '0' + date;
         }
         return `上次更新时间：${year}-${month}-${date}`  //模板字符串
       }
