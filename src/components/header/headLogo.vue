@@ -21,6 +21,7 @@
       newSongsRouter(){
         this.$store.commit('showDetailPlayer',false);
         this.$router.push({ path : '/'});
+        this.$store.commit('setHeadNav','head-nav1');
       }
     }
   }
