@@ -19,7 +19,7 @@
       <div class="detail_player-lrc">
         <p class="no_songLrc" v-show="typeof songLrc == 'string'">{{songLrc}}</p>
         <div class="lrc-content" :style="{ marginTop : lrcOffset + 'px'}">
-          <p  v-show="typeof songLrc != 'string'" v-for="(item,index) in songLrc" :key="item + index" :class="{ underCurrentlrc : item.seconds >= audio.currentLength , isSinginglrc: index == isSinging(index)}">  <!-- 所以要在player组件中timeupdate实时更新currentLength -->
+          <p  v-show="typeof songLrc != 'string'" v-for="(item,index) in songLrc" :key="item + index" :class="{ isSinginglrc: index == songLrcisSingingIndex }">  <!-- 所以要在player组件中timeupdate实时更新currentLength -->
             {{item.lrcContent}}
           </p>
         </div>
@@ -45,6 +45,10 @@ import { untils } from '../mixins/'
 
 export default {
   mixins: [untils],
+  mounted(){
+    this.audioElement.volume = 0.1;
+    this.syncVolumeBar();
+  },
   data: () => ({
     audioVolume:0,  //当前音量
     audioMuted:false,  //是否静音
@@ -88,14 +92,16 @@ export default {
         return '很遗憾，没有得到此歌曲的歌词';
       }
     },
-    lrcOffset(){
-        let offset = (this.songLrc.length - jq('.underCurrentlrc').length - 3) * (-20)  //显示的第一行距离顶部的像素
-        return this.audio.currentLength + offset - this.audio.currentLength
+    songLrcisSingingIndex () {
+      const time = parseInt(this.audio.currentLength)
+      if (Array.isArray(this.songLrc)) {
+        return this.getSongLrcIndex(time)
+      }
     },
-  },
-  mounted(){
-    this.audioElement.volume = 0.1;
-    this.syncVolumeBar();
+    lrcOffset(){
+        let offset = (this.songLrcisSingingIndex - 2) * (-20)  //显示的第一行距离顶部的像素
+        return offset
+    },
   },
   watch:{
     //用了watch和nextTick即数据变化加DOM重新渲染
@@ -127,21 +133,19 @@ export default {
     },
   },
   methods:{
+    getSongLrcIndex (time) {
+      for (let i = 0, len = this.songLrc.length; i < len; i++) {
+        if (i < len - 1) {
+          if (time >= this.songLrc[i].seconds && time < this.songLrc[i + 1].seconds) {
+            return i
+          }
+        } else {
+          return i
+        }
+      }
+    },
     hideDetailPlayer(){
       this.$store.commit('showDetailPlayer',false);
-    },
-    isSinging(index){
-      let currentLength = parseInt(this.audio.currentLength);
-      if (index < this.songLrc.length - 1) {  //除最后一句，在此句开始时间和下句开始时间的区间，高亮
-        if (currentLength > this.songLrc[index].seconds && currentLength < this.songLrc[index + 1].seconds) {
-          return index;
-        }
-      }
-      else {  //针对最后一句，时间>最后一句开始时间，高亮
-        if (currentLength >= this.songLrc[this.songLrc.length - 1].seconds) {
-          return index;
-        }
-      }
     },
     change(currentLength){
       this.$store.commit('recordAudioTime',currentLength);
