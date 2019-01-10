@@ -51,6 +51,7 @@ export default {
     cacheVolume:0,  //静音时缓存音量
     titleOffset:0,   //title偏移量
     titleOffsetTimer:null,  //计算title偏移量的setInterval
+    recordingOffset: 0,  //记录偏移量，当然用tittleOffset也行，只不过这样更直观
   }),
   filters:{
     time(value){
@@ -95,13 +96,13 @@ export default {
     },
   },
   mounted(){
-    console.log(this.$refs.audioPlay);
     this.audioElement.volume = 0.1;
     this.getAudioVolume();
   },
   watch:{
     //用了watch和nextTick即数据变化加DOM重新渲染
     showDetailPlayer: function () {  //需要监听showDetailPlayer是因为showDetailPlayer变化时会重新渲染title的DOM
+      this.titleOffset = 0
       this.$nextTick(function () {  //进入setTitleOffset需要确保setInterval是空的
         if (this.titleOffsetTimer == null) {
           this.setTitleOffset();
@@ -114,6 +115,7 @@ export default {
       })
     },
     listenCount: function () {
+      this.titleOffset = 0
       this.$nextTick(function () {
         if (this.titleOffsetTimer == null) {
           this.setTitleOffset();
@@ -160,7 +162,7 @@ export default {
       return minute + ':' + second;
     },
     //音量相关
-    getAudioVolume(value){  //computed还不能用jquery
+    getAudioVolume(value){
       if (value != undefined) {
         this.audioVolume = value;
       }
@@ -200,20 +202,16 @@ export default {
       let clientWidth = this.$refs.detailPlayerInfo.clientWidth
       let scrollWidth = this.$refs.detailPlayerInfo.scrollWidth
       if (clientWidth < scrollWidth) {
-        let recordingOffset = 0;  //记录偏移量，当然用tittleOffset也行，只不过这样更直观
         this.titleOffsetTimer = setInterval(() => {
-            if (recordingOffset > scrollWidth) {
+            if (this.recordingOffset > scrollWidth) {
               this.titleOffset = 0;  //偏移够了，回原位
-              recordingOffset = 0
+              this.recordingOffset = 0
             }
             else{
               this.titleOffset -= 1;
-              recordingOffset += 1;
+              this.recordingOffset += 1;
             }
         },20);
-      }
-      else{  //短title别忘了把偏移量变回去，不然指不定出现在哪
-        this.titleOffset = 0;
       }
     }
   },
