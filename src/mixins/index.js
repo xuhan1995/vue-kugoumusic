@@ -13,10 +13,10 @@ module.exports = {
       },
       toggleStatus(){
         if (this.isPlay) {
-          jq('#audioPlay')[0].pause();
+          this.audioElement.pause();
         }
         else{
-          jq('#audioPlay')[0].play();
+          this.audioElement.play();
         }
         this.$store.commit('isPlay',!this.isPlay);
       },

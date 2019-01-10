@@ -2,11 +2,11 @@
   <div v-show="showDetailPlayer">
     <div class="detail_player" :style="{backgroundImage:`url(${audio.imgUrl})`}"></div>
     <div class="detail_player"
-         :style="{backgroundImage:`url(${audio.imgUrl})`,filter: 'blur(5px)', '-webkit-filter':'blur(5px)'}"></div>
+         :style="{backgroundImage:`url(${audio.imgUrl})`,'filter': 'blur(5px)'}"></div>
     <div class="detail_player-content">
       <div class="detail_player-title container">
         <span class="detail_player-back" @click="hideDetailPlayer"></span>
-        <div class="detail_player_info"><p :style="{ marginLeft : titleOffset + 'px'}">{{audio.title}}</p></div>
+        <div class="detail_player_info" ref="detailPlayerInfo"><p :style="{ marginLeft : titleOffset + 'px'}">{{audio.title}}</p></div>
       </div>
 
       <div class="volume">
@@ -19,7 +19,11 @@
       <div class="detail_player-lrc">
         <p class="no_songLrc" v-show="typeof songLrc == 'string'">{{songLrc}}</p>
         <div class="lrc-content" :style="{ marginTop : lrcOffset + 'px'}">
+<<<<<<< HEAD
           <p  v-show="typeof songLrc != 'string'" v-for="(item,index) in songLrc" :key="index" :class="{ underCurrentlrc : item.seconds >= audio.currentLength , isSinginglrc: index == isSinging(index)}">  <!-- 所以要在player组件中timeupdate实时更新currentLength -->
+=======
+          <p  v-show="typeof songLrc != 'string'" v-for="(item,index) in songLrc" :key="item + index" :class="{ isSinginglrc: index == songLrcisSingingIndex }">  <!-- 所以要在player组件中timeupdate实时更新currentLength -->
+>>>>>>> dev
             {{item.lrcContent}}
           </p>
         </div>
@@ -44,12 +48,17 @@ import { untils } from '../mixins/'
 
 export default {
   mixins: [untils],
+  mounted(){
+    this.audioElement.volume = 0.1;
+    this.syncVolumeBar();
+  },
   data: () => ({
     audioVolume:0,  //当前音量
     audioMuted:false,  //是否静音
     cacheVolume:0,  //静音时缓存音量
     titleOffset:0,   //title偏移量
     titleOffsetTimer:null,  //计算title偏移量的setInterval
+    recordingOffset: 0,  //记录偏移量，当然用tittleOffset也行，只不过这样更直观
   }),
   filters:{
     time(value){
@@ -66,12 +75,12 @@ export default {
     }
   },
   computed:{
-    ...mapGetters(['showDetailPlayer','audio','isPlay','listenCount' ]),
+    ...mapGetters(['showDetailPlayer','audio','isPlay','listenCount', 'audioElement' ]),
     songLrc(){
       if (this.audio.lrc) {
         let songLrc = this.audio.lrc.split('\r\n')
         songLrc = songLrc.splice(0, songLrc.length - 1)
-        songLrc = songLrc.map((item)=> {  //每一句歌词都返回一个包含事件和歌词的对象
+        songLrc = songLrc.map((item)=> {
           let time = item.substr(1, 5).split(':')  //分开分钟和秒
           let seconds = parseInt(time[0]) * 60 + parseInt(time[1])   //把分钟和秒换算成秒
           let lrcContent = item.substr(10)  //歌词部分
@@ -86,33 +95,41 @@ export default {
         return '很遗憾，没有得到此歌曲的歌词';
       }
     },
-    lrcOffset(){
-      if (this.songLrc != null) {
-        let offset = (this.songLrc.length - jq('.underCurrentlrc').length - 3) * (-20)  //显示的第一行距离顶部的像素
-        return this.audio.currentLength + offset - this.audio.currentLength
+    songLrcisSingingIndex () {
+      const time = parseInt(this.audio.currentLength)
+      if (Array.isArray(this.songLrc)) {
+        return this.getSongLrcIndex(time)
       }
     },
+<<<<<<< HEAD
   },
   mounted(){
     jq('#audioPlay')[0].volume = localStorage.getItem("volume") || 0.4;
     this.getAudioVolume();
+=======
+    lrcOffset(){
+        let offset = (this.songLrcisSingingIndex - 2) * (-20)  //显示的第一行距离顶部的像素
+        return offset
+    },
+>>>>>>> dev
   },
   watch:{
     //用了watch和nextTick即数据变化加DOM重新渲染
     //进入showDetailPlayer和切换歌曲都需要调用setTitleOffset
     showDetailPlayer: function () {  //需要监听showDetailPlayer是因为showDetailPlayer变化时会重新渲染title的DOM
-      this.$nextTick(function () {  //进入setTitleOffset需要确保setInterval是空的
-        if (this.titleOffsetTimer == null) {
-          this.setTitleOffset();
-        }
-        else{
-          clearInterval(this.titleOffsetTimer);
-          this.titleOffsetTimer = null;
-          this.setTitleOffset();
-        }
-      })
+      this.initSongTitle()
     },
+<<<<<<< HEAD
     listenCount: function () { //对应切换歌曲
+=======
+    listenCount: function () {
+      this.initSongTitle()
+    },
+  },
+  methods:{
+    initSongTitle(){
+      this.titleOffset = 0
+>>>>>>> dev
       this.$nextTick(function () {
         if (this.titleOffsetTimer == null) {
           this.setTitleOffset();
@@ -124,26 +141,29 @@ export default {
         }
       })
     },
-  },
-  methods:{
+    getSongLrcIndex (time) {
+      for (let i = 0, len = this.songLrc.length; i < len; i++) {
+        if (i < len - 1) {
+          if (time >= this.songLrc[i].seconds && time < this.songLrc[i + 1].seconds) {
+            return i
+          } else if (time < this.songLrc[0].seconds) {
+            return 0
+          }
+        } else {
+          return i
+        }
+      }
+    },
+<<<<<<< HEAD
+    changePlayProgress(currentLength){
+      this.$store.commit('setAudioTime',currentLength);
+=======
     hideDetailPlayer(){
       this.$store.commit('showDetailPlayer',false);
     },
-    isSinging(index){ //天哪，谁告诉我为什么放computed就不行，现在认为是computed不能传参
-      let currentLength = parseInt(this.audio.currentLength);
-      if (index < this.songLrc.length - 1) {  //除最后一句，在此句开始时间和下句开始时间的区间，高亮
-        if (currentLength > this.songLrc[index].seconds && currentLength < this.songLrc[index + 1].seconds) {
-          return index;
-        }
-      }
-      else {  //针对最后一句，时间>最后一句开始时间，高亮
-        if (currentLength >= this.songLrc[this.songLrc.length - 1].seconds) {
-          return index;
-        }
-      }
-    },
-    changePlayProgress(currentLength){
-      this.$store.commit('setAudioTime',currentLength);
+    change(currentLength){
+      this.$store.commit('recordAudioTime',currentLength);
+>>>>>>> dev
       this.$store.commit('setCurrent',true);
     },
     TooltipShowCurrentLength(value){ //没有延时的拖动可以完成，延时个0.5s就不行了
@@ -159,56 +179,70 @@ export default {
       return minute + ':' + second;
     },
     //音量相关
+<<<<<<< HEAD
     getAudioVolume(value){
       this.audioVolume = value != undefined ?  value :  jq('#audioPlay')[0].volume;
      },
     changeAudioVolume(currentVolume){
       if (currentVolume) {  //不是静音要同时改变两个状态值
         jq('#audioPlay')[0].muted = false;
+=======
+    syncVolumeBar(value){
+      if (value != undefined) {
+        this.audioVolume = value;
+      }
+      else{
+        this.audioVolume = this.audioElement.volume;
+      }
+    },
+    changeAudioVolume(currentVolume){
+      if (currentVolume) {
+        this.audioElement.muted = false;
+>>>>>>> dev
         this.audioMuted = false;
       }
-      else{  //同理
-        jq('#audioPlay')[0].muted = true;
+      else{
+        this.audioElement.muted = true;
         this.audioMuted = true;
       }
+<<<<<<< HEAD
       jq('#audioPlay')[0].volume = currentVolume;
       window.localStorage.setItem('volume',this.audioVolume);
+=======
+      this.audioElement.volume = currentVolume;
+>>>>>>> dev
     },
     TooltipShowAudioVolume(value){
       return value * 100;
     },
     //静音
     toggleMuted(){
-      if (!jq('#audioPlay')[0].muted){  //音量开
-        this.cacheVolume = jq('#audioPlay')[0].volume;  //缓存音量
-        jq('#audioPlay')[0].muted = true;  //静音
-        this.getAudioVolume(0); //同步音量条
+      if (!this.audioElement.muted){  //音量开
+        this.cacheVolume = this.audioElement.volume;  //缓存音量
+        this.audioElement.muted = true;  //静音
+        this.syncVolumeBar(0); //同步音量条
       }
       else {
-        jq('#audioPlay')[0].muted = false;
-        this.getAudioVolume(this.cacheVolume);
+        this.audioElement.muted = false;
+        this.syncVolumeBar(this.cacheVolume);
         this.cacheVolume = 0;
       }
         this.audioMuted = !this.audioMuted; //切换图标
     },
    setTitleOffset(){
-      let clientWidth = jq('.detail_player_info')[0].clientWidth
-      let scrollWidth = jq('.detail_player_info')[0].scrollWidth
+      let clientWidth = this.$refs.detailPlayerInfo.clientWidth
+      let scrollWidth = this.$refs.detailPlayerInfo.scrollWidth
       if (clientWidth < scrollWidth) {
-        let recordingOffset = 0;  //记录偏移量，当然用tittleOffset也行，只不过这样更直观
         this.titleOffsetTimer = setInterval(() => {
-            if (recordingOffset > scrollWidth) {
+            if (this.recordingOffset > scrollWidth) {
               this.titleOffset = 0;  //偏移够了，回原位
-              recordingOffset = 0
+              this.recordingOffset = 0
             }
             else{
               this.titleOffset -= 1;
-              recordingOffset += 1;
+              this.recordingOffset += 1;
             }
         },20);
-      }
-      else{  //短title别忘了把偏移量变回去，不然指不定出现在哪
-        this.titleOffset = 0;
       }
     }
   },
