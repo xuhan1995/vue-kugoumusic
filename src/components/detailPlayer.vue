@@ -6,7 +6,7 @@
     <div class="detail_player-content">
       <div class="detail_player-title container">
         <span class="detail_player-back" @click="hideDetailPlayer"></span>
-        <div class="detail_player_info"><p :style="{ marginLeft : titleOffset + 'px'}">{{audio.title}}</p></div>
+        <div class="detail_player_info" ref="detailPlayerInfo"><p :style="{ marginLeft : titleOffset + 'px'}">{{audio.title}}</p></div>
       </div>
 
       <div class="volume">
@@ -197,8 +197,8 @@ export default {
         this.audioMuted = !this.audioMuted;
     },
    setTitleOffset(){
-      let clientWidth = jq('.detail_player_info')[0].clientWidth
-      let scrollWidth = jq('.detail_player_info')[0].scrollWidth
+      let clientWidth = this.$refs.detailPlayerInfo.clientWidth
+      let scrollWidth = this.$refs.detailPlayerInfo.scrollWidth
       if (clientWidth < scrollWidth) {
         let recordingOffset = 0;  //记录偏移量，当然用tittleOffset也行，只不过这样更直观
         this.titleOffsetTimer = setInterval(() => {
