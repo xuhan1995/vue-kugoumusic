@@ -1,10 +1,5 @@
 <template>
   <div class="audio-view" :class="{'audio_panel_hide' : toggleHide}">
-<<<<<<< HEAD
-    <!-- audio_panel_hide类是把playerPanel隐藏 -->
-    <audio :src="audio.songUrl" autoplay id="audioPlay" @timeupdate="change" @ended="next"></audio>
-=======
->>>>>>> dev
     <div class="audio-panel-control" @click="togglePanel" :class="{'toggleContral' : toggleHide}">    <!-- toggleContral是圆圈里的上拉和划下 -->
       <mt-spinner type="fading-circle" :size="27" v-show="audioLoadding"></mt-spinner>
     </div>
@@ -44,11 +39,7 @@
       change(){
         let time = this.audioElement.currentTime;  //当前播放时间
         if (this.audio.currentFlag) {   //如果人为地改变了播放进度
-<<<<<<< HEAD
-          jq('#audioPlay')[0].currentTime = this.audio.currentLength;
-=======
           this.audioElement.currentTime = this.audio.currentLength;
->>>>>>> dev
           this.$store.commit('setCurrent',false);
         }
         else{

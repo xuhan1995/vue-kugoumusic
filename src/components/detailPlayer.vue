@@ -19,18 +19,14 @@
       <div class="detail_player-lrc">
         <p class="no_songLrc" v-show="typeof songLrc == 'string'">{{songLrc}}</p>
         <div class="lrc-content" :style="{ marginTop : lrcOffset + 'px'}">
-<<<<<<< HEAD
-          <p  v-show="typeof songLrc != 'string'" v-for="(item,index) in songLrc" :key="index" :class="{ underCurrentlrc : item.seconds >= audio.currentLength , isSinginglrc: index == isSinging(index)}">  <!-- 所以要在player组件中timeupdate实时更新currentLength -->
-=======
           <p  v-show="typeof songLrc != 'string'" v-for="(item,index) in songLrc" :key="item + index" :class="{ isSinginglrc: index == songLrcisSingingIndex }">  <!-- 所以要在player组件中timeupdate实时更新currentLength -->
->>>>>>> dev
             {{item.lrcContent}}
           </p>
         </div>
       </div>
       <div class="detail_player-range container">
         <span class="detail_player-time">{{audio.currentLength | time}}</span>
-        <el-slider v-model="audio.currentLength" :min="0" :max="audio.songLength" style="width: 80%"  @change="changePlayProgress" :format-tooltip="TooltipShowCurrentLength"></el-slider>
+        <el-slider v-model="audio.currentLength" :min="0" :max="audio.songLength" style="width: 80%"  @change="change" :format-tooltip="TooltipShowCurrentLength"></el-slider>
         <span class="detail_player-time">{{audio.songLength | time}}</span>
       </div>
       <div class="detail_player-control player-padding">
@@ -101,17 +97,10 @@ export default {
         return this.getSongLrcIndex(time)
       }
     },
-<<<<<<< HEAD
-  },
-  mounted(){
-    jq('#audioPlay')[0].volume = localStorage.getItem("volume") || 0.4;
-    this.getAudioVolume();
-=======
     lrcOffset(){
         let offset = (this.songLrcisSingingIndex - 2) * (-20)  //显示的第一行距离顶部的像素
         return offset
     },
->>>>>>> dev
   },
   watch:{
     //用了watch和nextTick即数据变化加DOM重新渲染
@@ -119,9 +108,6 @@ export default {
     showDetailPlayer: function () {  //需要监听showDetailPlayer是因为showDetailPlayer变化时会重新渲染title的DOM
       this.initSongTitle()
     },
-<<<<<<< HEAD
-    listenCount: function () { //对应切换歌曲
-=======
     listenCount: function () {
       this.initSongTitle()
     },
@@ -129,7 +115,6 @@ export default {
   methods:{
     initSongTitle(){
       this.titleOffset = 0
->>>>>>> dev
       this.$nextTick(function () {
         if (this.titleOffsetTimer == null) {
           this.setTitleOffset();
@@ -154,16 +139,11 @@ export default {
         }
       }
     },
-<<<<<<< HEAD
-    changePlayProgress(currentLength){
-      this.$store.commit('setAudioTime',currentLength);
-=======
     hideDetailPlayer(){
       this.$store.commit('showDetailPlayer',false);
     },
     change(currentLength){
       this.$store.commit('recordAudioTime',currentLength);
->>>>>>> dev
       this.$store.commit('setCurrent',true);
     },
     TooltipShowCurrentLength(value){ //没有延时的拖动可以完成，延时个0.5s就不行了
@@ -179,14 +159,6 @@ export default {
       return minute + ':' + second;
     },
     //音量相关
-<<<<<<< HEAD
-    getAudioVolume(value){
-      this.audioVolume = value != undefined ?  value :  jq('#audioPlay')[0].volume;
-     },
-    changeAudioVolume(currentVolume){
-      if (currentVolume) {  //不是静音要同时改变两个状态值
-        jq('#audioPlay')[0].muted = false;
-=======
     syncVolumeBar(value){
       if (value != undefined) {
         this.audioVolume = value;
@@ -198,19 +170,13 @@ export default {
     changeAudioVolume(currentVolume){
       if (currentVolume) {
         this.audioElement.muted = false;
->>>>>>> dev
         this.audioMuted = false;
       }
       else{
         this.audioElement.muted = true;
         this.audioMuted = true;
       }
-<<<<<<< HEAD
-      jq('#audioPlay')[0].volume = currentVolume;
-      window.localStorage.setItem('volume',this.audioVolume);
-=======
       this.audioElement.volume = currentVolume;
->>>>>>> dev
     },
     TooltipShowAudioVolume(value){
       return value * 100;
