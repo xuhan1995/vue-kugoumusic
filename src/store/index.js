@@ -68,7 +68,7 @@ const store = new Vuex.Store({
       state.audio = {...(state.audio),lrc}
     },
     //player页
-    setCurret: (state,flag) => {   //改变了播放进度
+    setCurrent: (state,flag) => {   //改变了播放进度
       state.audio.currentFlag = flag;
     },
     setAudioTime: (state,time) => {

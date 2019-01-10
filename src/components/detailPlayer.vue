@@ -19,7 +19,7 @@
       <div class="detail_player-lrc">
         <p class="no_songLrc" v-show="typeof songLrc == 'string'">{{songLrc}}</p>
         <div class="lrc-content" :style="{ marginTop : lrcOffset + 'px'}">
-          <p  v-show="typeof songLrc != 'string'" v-for="(item,index) in songLrc" :class="{ underCurrentlrc : item.seconds >= audio.currentLength , isSinginglrc: index == isSinging(index)}">  <!-- 所以要在player组件中timeupdate实时更新currentLength -->
+          <p  v-show="typeof songLrc != 'string'" v-for="(item,index) in songLrc" :key="item + index" :class="{ underCurrentlrc : item.seconds >= audio.currentLength , isSinginglrc: index == isSinging(index)}">  <!-- 所以要在player组件中timeupdate实时更新currentLength -->
             {{item.lrcContent}}
           </p>
         </div>
@@ -95,7 +95,8 @@ export default {
     },
   },
   mounted(){
-    jq('#audioPlay')[0].volume = 0.4;
+    console.log(this.$refs.audioPlay);
+    jq('#audioPlay')[0].volume = 0.1;
     this.getAudioVolume();
   },
   watch:{
@@ -144,7 +145,7 @@ export default {
     },
     change(currentLength){
       this.$store.commit('setAudioTime',currentLength);
-      this.$store.commit('setCurret',true);
+      this.$store.commit('setCurrent',true);
     },
     TooltipShowCurrentLength(value){ //没有延时的拖动可以完成，延时个0.5s就不行了
       let seconds = value;
