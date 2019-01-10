@@ -73,7 +73,7 @@ export default {
       if (this.audio.lrc) {
         let songLrc = this.audio.lrc.split('\r\n')
         songLrc = songLrc.splice(0, songLrc.length - 1)
-        songLrc = songLrc.map((item)=> {  //每一句歌词都返回一个包含事件和歌词的对象
+        songLrc = songLrc.map((item)=> {
           let time = item.substr(1, 5).split(':')  //分开分钟和秒
           let seconds = parseInt(time[0]) * 60 + parseInt(time[1])   //把分钟和秒换算成秒
           let lrcContent = item.substr(10)  //歌词部分
@@ -89,15 +89,13 @@ export default {
       }
     },
     lrcOffset(){
-      if (this.songLrc != null) {
         let offset = (this.songLrc.length - jq('.underCurrentlrc').length - 3) * (-20)  //显示的第一行距离顶部的像素
         return this.audio.currentLength + offset - this.audio.currentLength
-      }
     },
   },
   mounted(){
     this.audioElement.volume = 0.1;
-    this.getAudioVolume();
+    this.syncVolumeBar();
   },
   watch:{
     //用了watch和nextTick即数据变化加DOM重新渲染
@@ -132,7 +130,7 @@ export default {
     hideDetailPlayer(){
       this.$store.commit('showDetailPlayer',false);
     },
-    isSinging(index){ //天哪，谁告诉我为什么放computed就不行，现在认为是computed不能传参
+    isSinging(index){
       let currentLength = parseInt(this.audio.currentLength);
       if (index < this.songLrc.length - 1) {  //除最后一句，在此句开始时间和下句开始时间的区间，高亮
         if (currentLength > this.songLrc[index].seconds && currentLength < this.songLrc[index + 1].seconds) {
@@ -162,7 +160,7 @@ export default {
       return minute + ':' + second;
     },
     //音量相关
-    getAudioVolume(value){
+    syncVolumeBar(value){
       if (value != undefined) {
         this.audioVolume = value;
       }
@@ -171,11 +169,11 @@ export default {
       }
     },
     changeAudioVolume(currentVolume){
-      if (currentVolume) {  //不是静音要同时改变两个状态
+      if (currentVolume) {
         this.audioElement.muted = false;
         this.audioMuted = false;
       }
-      else{  //同理
+      else{
         this.audioElement.muted = true;
         this.audioMuted = true;
       }
@@ -189,11 +187,11 @@ export default {
       if (!this.audioElement.muted){  //音量开
         this.cacheVolume = this.audioElement.volume;  //缓存音量
         this.audioElement.muted = true;  //静音
-        this.getAudioVolume(0); //同步音量条
+        this.syncVolumeBar(0); //同步音量条
       }
       else {
         this.audioElement.muted = false;
-        this.getAudioVolume(this.cacheVolume);
+        this.syncVolumeBar(this.cacheVolume);
         this.cacheVolume = 0;
       }
         this.audioMuted = !this.audioMuted;
