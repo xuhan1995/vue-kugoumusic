@@ -67,7 +67,7 @@ export default {
     }
   },
   computed:{
-    ...mapGetters(['showDetailPlayer','audio','isPlay','listenCount' ]),
+    ...mapGetters(['showDetailPlayer','audio','isPlay','listenCount', 'audioElement' ]),
     songLrc(){
       if (this.audio.lrc) {
         let songLrc = this.audio.lrc.split('\r\n')
@@ -96,7 +96,7 @@ export default {
   },
   mounted(){
     console.log(this.$refs.audioPlay);
-    jq('#audioPlay')[0].volume = 0.1;
+    this.audioElement.volume = 0.1;
     this.getAudioVolume();
   },
   watch:{
@@ -165,32 +165,32 @@ export default {
         this.audioVolume = value;
       }
       else{
-        this.audioVolume = jq('#audioPlay')[0].volume;
+        this.audioVolume = this.audioElement.volume;
       }
     },
     changeAudioVolume(currentVolume){
       if (currentVolume) {  //不是静音要同时改变两个状态
-        jq('#audioPlay')[0].muted = false;
+        this.audioElement.muted = false;
         this.audioMuted = false;
       }
       else{  //同理
-        jq('#audioPlay')[0].muted = true;
+        this.audioElement.muted = true;
         this.audioMuted = true;
       }
-      jq('#audioPlay')[0].volume = currentVolume;
+      this.audioElement.volume = currentVolume;
     },
     TooltipShowAudioVolume(value){
       return value * 100;
     },
     //静音
     toggleMuted(){
-      if (!jq('#audioPlay')[0].muted){  //音量开
-        this.cacheVolume = jq('#audioPlay')[0].volume;  //缓存音量
-        jq('#audioPlay')[0].muted = true;  //静音
+      if (!this.audioElement.muted){  //音量开
+        this.cacheVolume = this.audioElement.volume;  //缓存音量
+        this.audioElement.muted = true;  //静音
         this.getAudioVolume(0); //同步音量条
       }
       else {
-        jq('#audioPlay')[0].muted = false;
+        this.audioElement.muted = false;
         this.getAudioVolume(this.cacheVolume);
         this.cacheVolume = 0;
       }

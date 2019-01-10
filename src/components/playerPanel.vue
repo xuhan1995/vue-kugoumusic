@@ -25,11 +25,11 @@
 
   export default {
     mixins: [untils],
-    data: () => ({
-
-    }),
+    mounted(){
+      this.$store.commit('setAudioElement', this.$refs.audioPlay)
+    },
     computed:{
-      ...mapGetters(['audio','audioLoadding','showPlayer','isPlay','toggleHide'])
+      ...mapGetters(['audio','audioLoadding','showPlayer','isPlay','toggleHide','audioElement'])
     },
     methods:{
       togglePanel(){
@@ -37,9 +37,9 @@
         this.$store.commit('toggleHide',toggleHide);
       },
       change(){
-        let time = this.$refs.audioPlay.currentTime;  //当前播放时间
+        let time = this.audioElement.currentTime;  //当前播放时间
         if (this.audio.currentFlag) {   //如果人为地改变了播放进度
-          this.$refs.audioPlay.currentTime = this.audio.currentLength;
+          this.audioElement.currentTime = this.audio.currentLength;
           this.$store.commit('setCurrent',false);
         }
         else{

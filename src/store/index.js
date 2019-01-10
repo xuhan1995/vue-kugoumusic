@@ -31,6 +31,7 @@ const store = new Vuex.Store({
     showPlayer:false,  //是否能允许detailPlayer，只有首次进入不允许，因为没放歌，detailPlayer，啥都没有
     isPlay:false,  //是否正在播放
     toggleHide: false,  //面板隐藏和显示一个上三角一个下三角的flag
+    audioElement: {}
   },
   getters:{
     headNav: state => state.headNav,
@@ -42,6 +43,7 @@ const store = new Vuex.Store({
     showDetailPlayer: state => state.showDetailPlayer,
     listenCount: state => state.listenCount,
     toggleHide: state => state.toggleHide,
+    audioElement: state => state.audioElement,
   },
   mutations:{
     showDetailPlayer: (state,flag) => {
@@ -93,6 +95,9 @@ const store = new Vuex.Store({
     resetHeadStyle:(state) => {
       state.head.style = {'background': 'rgba(43,162,251,0)'};
     },
+    setAudioElement: (state, obj) => {
+      state.audioElement = obj
+    }
   },
   actions:{
     getSong({commit, state}, hash){
