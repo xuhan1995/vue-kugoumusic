@@ -71,7 +71,7 @@ const store = new Vuex.Store({
     setCurrent: (state,flag) => {   //改变了播放进度
       state.audio.currentFlag = flag;
     },
-    setAudioTime: (state,time) => {
+    recordAudioTime: (state,time) => {
       state.audio.currentLength = time;
     },
     isPlay: (state,flag) => {

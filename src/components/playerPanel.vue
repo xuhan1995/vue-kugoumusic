@@ -4,7 +4,7 @@
       <mt-spinner type="fading-circle" :size="27" v-show="audioLoadding"></mt-spinner>
     </div>
     <!-- audio_panel_hide类是把playerPanel隐藏 -->
-    <audio :src="audio.songUrl" autoplay id="audioPlay" @timeupdate="change" @ended="next"></audio>
+    <audio :src="audio.songUrl" autoplay id="audioPlay" ref="audioPlay" @timeupdate="change" @ended="next"></audio>
     <div class="audio-panel">
       <img class="player-img" :src="audio.imgUrl" @click="showDetailPlayer">
       <div class="player-status" @click="showDetailPlayer">
@@ -43,7 +43,7 @@
           this.$store.commit('setCurrent',false);
         }
         else{
-          this.$store.commit('setAudioTime',time);
+          this.$store.commit('recordAudioTime',time);
         }
       },
       showDetailPlayer(){
