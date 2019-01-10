@@ -11,14 +11,17 @@
 
 <script type="text/javascript">
   export default {
+    created(){
+      this.matchNav(this.$route.path)
+    },
     computed:{
       headNav:{
         get() {
           return this.$store.getters.headNav
         },
         set(id) {
-          const index = id.substr(-1);
           this.$store.commit('setHeadNav',id);
+          const index = id.substr(-1);
           this.goRouter(Number(index));
         }
       },
@@ -37,6 +40,22 @@
             break;
           case 4:
             this.$router.push({path: '/singer'});
+            break;
+        }
+      },
+      matchNav (path) {
+        switch (path) {
+          case '/' || '/newSongs':
+           this.$store.commit('setHeadNav', 'head-nav1');            
+            break;
+          case '/rank':
+            this.$store.commit('setHeadNav', 'head-nav2');                        
+            break;
+          case '/plist':
+            this.$store.commit('setHeadNav', 'head-nav3');             
+            break;
+          case '/singer':
+            this.$store.commit('setHeadNav', 'head-nav4');
             break;
         }
       }
