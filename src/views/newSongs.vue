@@ -33,7 +33,7 @@
       songList:[]
     }),
     computed: {
-      ...mapGetters(['audio','toggleHide'])
+      ...mapGetters(['toggleHide'])
     },
     created(){  //渲染前调用
       this.getSongs();
