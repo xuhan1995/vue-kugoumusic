@@ -106,19 +106,14 @@ export default {
   watch:{
     //用了watch和nextTick即数据变化加DOM重新渲染
     showDetailPlayer: function () {  //需要监听showDetailPlayer是因为showDetailPlayer变化时会重新渲染title的DOM
-      this.titleOffset = 0
-      this.$nextTick(function () {  //进入setTitleOffset需要确保setInterval是空的
-        if (this.titleOffsetTimer == null) {
-          this.setTitleOffset();
-        }
-        else{
-          clearInterval(this.titleOffsetTimer);
-          this.titleOffsetTimer = null;
-          this.setTitleOffset();
-        }
-      })
+      this.initSongTitle()
     },
     listenCount: function () {
+      this.initSongTitle()
+    },
+  },
+  methods:{
+    initSongTitle(){
       this.titleOffset = 0
       this.$nextTick(function () {
         if (this.titleOffsetTimer == null) {
@@ -131,13 +126,13 @@ export default {
         }
       })
     },
-  },
-  methods:{
     getSongLrcIndex (time) {
       for (let i = 0, len = this.songLrc.length; i < len; i++) {
         if (i < len - 1) {
           if (time >= this.songLrc[i].seconds && time < this.songLrc[i + 1].seconds) {
             return i
+          } else if (time < this.songLrc[0].seconds) {
+            return 0
           }
         } else {
           return i
