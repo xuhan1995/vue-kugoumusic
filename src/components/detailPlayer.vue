@@ -2,7 +2,7 @@
   <div v-show="showDetailPlayer">
     <div class="detail_player" :style="{backgroundImage:`url(${audio.imgUrl})`}"></div>
     <div class="detail_player"
-         :style="{backgroundImage:`url(${audio.imgUrl})`,filter: 'blur(5px)', '-webkit-filter':'blur(5px)'}"></div>
+         :style="{backgroundImage:`url(${audio.imgUrl})`,'filter': 'blur(5px)'}"></div>
     <div class="detail_player-content">
       <div class="detail_player-title container">
         <span class="detail_player-back" @click="hideDetailPlayer"></span>
