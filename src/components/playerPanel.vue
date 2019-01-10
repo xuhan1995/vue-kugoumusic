@@ -4,7 +4,7 @@
       <mt-spinner type="fading-circle" :size="27" v-show="audioLoadding"></mt-spinner>
     </div>
     <!-- audio_panel_hide类是把playerPanel隐藏 -->
-    <audio :src="audio.songUrl" autoplay id="audioPlay" ref="audioPlay" @timeupdate="change" @ended="next"></audio>
+    <audio :src="audio.songUrl" autoplay ref="audioPlay" @timeupdate="change" @ended="next"></audio>
     <div class="audio-panel">
       <img class="player-img" :src="audio.imgUrl" @click="showDetailPlayer">
       <div class="player-status" @click="showDetailPlayer">
@@ -37,9 +37,9 @@
         this.$store.commit('toggleHide',toggleHide);
       },
       change(){
-        let time = jq('#audioPlay')[0].currentTime;  //当前播放时间
+        let time = this.$refs.audioPlay.currentTime;  //当前播放时间
         if (this.audio.currentFlag) {   //如果人为地改变了播放进度
-          jq('#audioPlay')[0].currentTime = this.audio.currentLength;
+          this.$refs.audioPlay.currentTime = this.audio.currentLength;
           this.$store.commit('setCurrent',false);
         }
         else{
