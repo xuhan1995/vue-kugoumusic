@@ -79,11 +79,5 @@ module.exports = {
     net: 'empty',
     tls: 'empty',
     child_process: 'empty'
-  },
-    plugins: [
-    new webpack.ProvidePlugin({
-        jq: "jquery",
-        jQuery: "jquery"
-    })
-    ]
+  }
 }

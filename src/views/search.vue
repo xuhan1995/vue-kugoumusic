@@ -77,11 +77,9 @@
         this.$http.get(`/aproxy/api/v3/search/song?format=json&keyword=${queryString}&page=1&pagesize=10&showtype=1`).then(({data}) =>{
           this.songList = data.data.info;
           if (this.inputValue) {
-            jq('div.el-autocomplete-suggestion').show();
             cb(this.songList);
           }
           else{
-            jq('div.el-autocomplete-suggestion').hide();
           }
         }).catch(error => {console.log(error);}).then(() => {
           Indicator.close();
