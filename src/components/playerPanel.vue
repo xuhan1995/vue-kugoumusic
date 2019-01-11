@@ -57,7 +57,7 @@
 
 <style type="text/css">
 .audio-view{  /*面板整体（包括隐藏的圆圈）仍然用fixed布局*/
-  position: fixed;bottom: 0;left: 0;width: 100%;transition: all 0.5s;
+  position: fixed;bottom: -1px;left: 0;width: 100%;transition: all 0.5s;
 }
 .audio-view .mint-spinner-snake{background-color: #000;margin:4px}
 /*未隐藏，下三角*/

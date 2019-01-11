@@ -19,14 +19,14 @@
       <div class="detail_player-lrc">
         <p class="no_songLrc" v-show="typeof songLrc == 'string'">{{songLrc}}</p>
         <div class="lrc-content" :style="{ marginTop : lrcOffset + 'px'}">
-          <p  v-show="typeof songLrc != 'string'" v-for="(item,index) in songLrc" :key="item + index" :class="{ isSinginglrc: index == songLrcisSingingIndex }">  <!-- 所以要在player组件中timeupdate实时更新currentLength -->
+          <p  v-show="typeof songLrc != 'string'" v-for="(item, index) in songLrc" :key="item + index" :class="{ isSinginglrc: index == songLrcisSingingIndex }">  <!-- 所以要在player组件中timeupdate实时更新currentLength -->
             {{item.lrcContent}}
           </p>
         </div>
       </div>
       <div class="detail_player-range container">
         <span class="detail_player-time">{{audio.currentLength | time}}</span>
-        <el-slider v-model="audio.currentLength" :min="0" :max="audio.songLength" style="width: 80%"  @change="change" :format-tooltip="TooltipShowCurrentLength"></el-slider>
+        <el-slider v-model="audio.currentLength" :min="0" :max="audio.songLength" style="width: 80%"  @change="changeCurrentLength" :format-tooltip="formmatTime"></el-slider>
         <span class="detail_player-time">{{audio.songLength | time}}</span>
       </div>
       <div class="detail_player-control player-padding">
@@ -41,6 +41,7 @@
 <script type="text/javascript">
 import { mapGetters } from 'vuex'
 import { untils } from '../mixins/'
+import { formmatTime } from '@/utils/utils'
 
 export default {
   mixins: [untils],
@@ -58,16 +59,7 @@ export default {
   }),
   filters:{
     time(value){
-      let seconds = Math.floor(value);
-      let minute = Math.floor(seconds / 60);
-      if (minute < 10) {
-        minute = '0' + minute;
-      }
-      let second = seconds % 60;
-      if (second < 10) {
-        second = '0' + second;
-      }
-      return minute + ':' + second;
+      return formmatTime(value)
     }
   },
   computed:{
@@ -98,7 +90,7 @@ export default {
       }
     },
     lrcOffset(){
-        let offset = (this.songLrcisSingingIndex - 2) * (-20)  //显示的第一行距离顶部的像素
+        const offset = (this.songLrcisSingingIndex - 2) * (-20)  //显示的第一行距离顶部的像素
         return offset
     },
   },
@@ -142,21 +134,11 @@ export default {
     hideDetailPlayer(){
       this.$store.commit('showDetailPlayer',false);
     },
-    change(currentLength){
-      this.$store.commit('recordAudioTime',currentLength);
-      this.$store.commit('setCurrent',true);
+    changeCurrentLength(currentLength){
+      this.$store.commit('setCurrent', true);
     },
-    TooltipShowCurrentLength(value){ //没有延时的拖动可以完成，延时个0.5s就不行了
-      let seconds = value;
-      let minute = Math.floor(seconds / 60);
-      if (minute < 10) {
-        minute = '0' + minute;
-      }
-      let second = seconds % 60;
-      if (second < 10) {
-        second = '0' + second;
-      }
-      return minute + ':' + second;
+    formmatTime(value){ //没有延时的拖动可以完成，延时个0.5s就不行了
+      formmatTime(value)
     },
     //音量相关
     syncVolumeBar(value){
@@ -200,15 +182,14 @@ export default {
       let scrollWidth = this.$refs.detailPlayerInfo.scrollWidth
       if (clientWidth < scrollWidth) {
         this.titleOffsetTimer = setInterval(() => {
-            if (this.recordingOffset > scrollWidth) {
-              this.titleOffset = 0;  //偏移够了，回原位
-              this.recordingOffset = 0
-            }
-            else{
-              this.titleOffset -= 1;
-              this.recordingOffset += 1;
-            }
-        },20);
+          if (this.recordingOffset > scrollWidth) {
+            this.titleOffset = 0;  //偏移够了，回原位
+            this.recordingOffset = 0
+          } else {
+            this.titleOffset -= 1;
+            this.recordingOffset += 1;
+          }
+        }, 20);
       }
     }
   },
