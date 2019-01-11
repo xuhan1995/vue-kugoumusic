@@ -3,7 +3,6 @@
     <div class="rank-banner-wrap" :style="{backgroundImage:`url(${imgurl})`}" @click="getMoreInfo">
     </div>
     <div class="plist-desp">
-      <!-- 现在不知道那种更好 <p class="plist-desp-p" :class="{ 'plist-desp-hide' : hideIntro}"> -->
       <p class="plist-desp-p">
         <span class="singername">{{info.singername}}</span>
         <span style="display: block" v-show="!hideIntro">{{singerInfo}}</span>
@@ -40,7 +39,8 @@
      //通过路由的before钩子解除router-view缓存限制，否则只会显示第一次的rankInfo（生命周期不会触发）    
     beforeRouteEnter (to, from, next) {
       next(vm => {
-        window.scroll(0,0)
+        window.scrollTo(0,0)
+        vm.hideIntro = true
         vm.$store.commit('showHead',true);
         vm.getList();
         window.onscroll = () => {
@@ -53,12 +53,6 @@
       this.$store.commit('showHead',false);
       window.onscroll = null;
       next();
-    },
-    mounted(){
-      window.onscroll = () => {
-        vm.opacity = window.scrollY / 200;
-        vm.$store.commit('setHeadStyle',{background: `rgba(43,162,251,${vm.opacity})`})
-      }
     },
     computed:{
       ...mapGetters(['toggleHide']),
