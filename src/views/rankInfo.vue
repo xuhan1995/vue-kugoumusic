@@ -33,6 +33,7 @@
      //通过路由的before钩子解除router-view缓存限制，否则只会显示第一次的rankInfo（生命周期不会触发）
     beforeRouteEnter (to, from, next) {
       next(vm => {
+        window.scrollTo(0,0)
         vm.$store.commit('showHead',true);
         vm.getList();
         window.onscroll = () => {
@@ -45,12 +46,6 @@
       this.$store.commit('showHead',false);
       window.onscroll = null;
       next();
-    },
-    mounted(){
-      window.onscroll = () => {
-        vm.opacity = window.scrollY / 200;
-        vm.$store.commit('setHeadStyle',{background: `rgba(43,162,251,${vm.opacity})`})
-      }
     },
     computed:{
       ...mapGetters(['toggleHide']),

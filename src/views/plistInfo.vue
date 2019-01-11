@@ -2,7 +2,7 @@
   <div class="rank-info-content plist-info" :class="{'toggle_hide_margin_bottom':toggleHide ,'toggle_show_margin_bottom':!toggleHide}">
     <div class="rank-banner-wrap" :style="{backgroundImage:`url(${imgurl})`}">
       <div class="rank-status container">
-        <el-tag v-for="(tag,index) in info.tags" :key="index">{{tag.tagname}}</el-tag>
+        <el-tag style="marginLeft:5px" v-for="(tag,index) in info.tags" :key="index">{{tag.tagname}}</el-tag>
       </div>
     </div>
     <div class="plist-desp">
@@ -41,6 +41,8 @@
     //通过路由的before钩子解除router-view缓存限制，否则只会显示第一次的rankInfo（生命周期不会触发）    
     beforeRouteEnter (to, from, next) {
       next(vm => {
+        window.scrollTo(0,0)
+        vm.hideIntro = true
         vm.$store.commit('showHead',true);
         vm.getList();
         window.onscroll = () => {
@@ -53,12 +55,6 @@
       this.$store.commit('showHead',false);
       window.onscroll = null;
       next();
-    },
-    mounted(){
-      window.onscroll = () => {
-        vm.opacity = window.scrollY / 200;
-        vm.$store.commit('setHeadStyle',{background: `rgba(43,162,251,${vm.opacity})`})
-      }
     },
     computed:{
       ...mapGetters(['toggleHide']),
