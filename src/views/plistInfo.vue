@@ -38,7 +38,7 @@
       songList:[],
       hideIntro:true,
     }),
-    //通过路由的before钩子解除router-view缓存限制，并不希望缓存每个rankInfo
+    //通过路由的before钩子解除router-view缓存限制，否则只会显示第一次的rankInfo（生命周期不会触发）    
     beforeRouteEnter (to, from, next) {
       next(vm => {
         vm.$store.commit('showHead',true);
