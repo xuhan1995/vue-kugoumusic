@@ -2,7 +2,8 @@
   <div v-show="showDetailPlayer">
     <div class="detail_player" :style="{backgroundImage:`url(${audio.imgUrl})`}"></div>
     <div class="detail_player"
-         :style="{backgroundImage:`url(${audio.imgUrl})`,'filter': 'blur(5px)'}"></div>
+         :style="{backgroundImage:`url(${audio.imgUrl})`,'filter': 'blur(5px)'}">
+    </div>
     <div class="detail_player-content">
       <div class="detail_player-title container">
         <span class="detail_player-back" @click="hideDetailPlayer"></span>
@@ -41,7 +42,7 @@
 <script type="text/javascript">
 import { mapGetters } from 'vuex'
 import { untils } from '../mixins/'
-import { formmatTime } from '@/utils/utils'
+import { formmatTime, hideDetailPlayer } from '@/utils/utils'
 
 export default {
   mixins: [untils],
@@ -108,14 +109,8 @@ export default {
     initSongTitle(){
       this.titleOffset = 0
       this.$nextTick(function () {
-        if (this.titleOffsetTimer == null) {
-          this.setTitleOffset();
-        }
-        else{
           clearInterval(this.titleOffsetTimer);
-          this.titleOffsetTimer = null;
           this.setTitleOffset();
-        }
       })
     },
     getSongLrcIndex (time) {
@@ -132,7 +127,7 @@ export default {
       }
     },
     hideDetailPlayer(){
-      this.$store.commit('showDetailPlayer',false);
+      hideDetailPlayer(this.$store)
     },
     changeCurrentLength(currentLength){
       this.$store.commit('setCurrent', true);

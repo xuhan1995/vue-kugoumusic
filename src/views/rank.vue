@@ -26,8 +26,8 @@
           text: '加载中...',
           spinnerType: 'fading-circle'
         });
-        this.$http.get('/proxy/rank/list&json=true').then(({data}) =>{
-          this.rankList = data.rank.list;
+        this.$http.get('/proxy/rank/list&json=true').then(({data: {rank: {list}}}) =>{
+          this.rankList = list;
         }).then(() => {
           Indicator.close();
         })

@@ -10,3 +10,6 @@ export const formmatTime = value => {
   }
   return minute + ':' + second;
 }
+export const hideDetailPlayer = (store) => {
+  store.commit('showDetailPlayer',false);
+}

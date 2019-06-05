@@ -12,15 +12,16 @@
 </template>
 
 <script type="text/javascript">
+import { hideDetailPlayer } from '../../utils/utils'
+
   export default {
     methods:{
       searchRouter(){
-        this.$store.commit('showDetailPlayer',false);  //关闭播放面板
+        hideDetailPlayer(this.$store)
         this.$router.push({ path : '/search'});
       },
       newSongsRouter(){
-        this.$store.commit('showDetailPlayer',false);
-        this.$store.commit('setHeadNav','head-nav1');
+        hideDetailPlayer(this.$store)
         this.$router.push({ path : '/'});
         this.$store.commit('setHeadNav','head-nav1');
       }
